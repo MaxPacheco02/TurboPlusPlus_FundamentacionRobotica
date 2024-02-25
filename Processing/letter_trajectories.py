@@ -99,7 +99,7 @@ word = np.append(word, np.transpose([np.zeros(len(word))]), axis=1)
 word = np.append(word, np.transpose([filled_list]), axis=1)
 
 # Function for rotating in axis by angle
-def rotate_coordinates(coordinates, axis, angle, translation):
+def rotate_coordinates(coordinates, axis, angle, translation, resize):
     # Extracting coordinates without flag
     coords = coordinates[:,:3]
 
@@ -110,11 +110,18 @@ def rotate_coordinates(coordinates, axis, angle, translation):
     rotation_matrix[(axis+1) % 3, axis] = np.sin(angle)
     rotation_matrix[(axis+1) % 3, (axis+1) % 3] = np.cos(angle)
     
+    # Resizing coordinates
+    if(resize != 1):
+        coords = coords * resize;
+
     # Rotate coordinates
-    rotated_coords = np.dot(coords, rotation_matrix)
+    if(angle != 0):
+        rotated_coords = np.dot(coords, rotation_matrix)
 
     # Translated coordinates
-    translated_coords = rotated_coords + translation[np.newaxis, :]
+    if(math.sqrt(sum(pow(element, 2) for element in translation)) != 0):
+        translated_coords = rotated_coords + translation[np.newaxis, :]
+
 
     # Return rotated with flag
     return np.hstack((translated_coords, coordinates[:, 3:]))
@@ -122,26 +129,27 @@ def rotate_coordinates(coordinates, axis, angle, translation):
 
 # Rotating coordinates
 # 2-x 1-y 0-z 
-translation = np.array([100,1000,-200])
+translation = np.array([-70,-50,-20])
 zerotranslation = np.array([0,0,0])
-rotated_word = rotate_coordinates(word, 0, np.pi/2*1, translation)
-rotated_word = rotate_coordinates(rotated_word, 2, np.pi/3*1, zerotranslation)
+rotated_word = rotate_coordinates(word, 1, np.pi/2, translation, .10)
+#rotated_word = rotate_coordinates(rotated_word, 0, np.pi/2*1, translation)
+#rotated_word = rotate_coordinates(rotated_word, 2, np.pi/3*1, zerotranslation)
 
 # Plot 2D
 # plt.plot(word[:,0], word[:,1], 'ro') # Draw the whole trajectory
 # for i in range(len(word)):
 #     if(word[i,2] == 1):
 #         plt.plot(word[i,0], word[i,1], 'bo') # Draw 'added' points
-
+#
 # plt.grid(True)
 # plt.show()
 
 # Plot 3D
-from mpl_toolkits.mplot3d import Axes3D
-fig = plt.figure(figsize=(12, 12))
-ax = fig.add_subplot(projection='3d')
-ax.scatter(rotated_word[:,0], rotated_word[:,1], rotated_word[:,2], c='b')
-plt.show()
+#from mpl_toolkits.mplot3d import Axes3D
+#fig = plt.figure(figsize=(12, 12))
+#ax = fig.add_subplot(projection='3d')
+#ax.scatter(rotated_word[:,0], rotated_word[:,1], rotated_word[:,2], c='b')
+#plt.show()
 
 ## Converting array into json file
 data2json_array = []
