@@ -1,6 +1,4 @@
 import java.io.File;
-import java.nio.file.Path; 
-import java.nio.file.Paths;
 
 PShape base, shoulder, upArm, loArm, endR;
 float rotX, rotY=-PI/2;
@@ -21,11 +19,6 @@ void loadData(){
   // Cambiar esto dependiendo del path de cada quien
   String base_directory =  "/C:/Users/maxpr/ITESM/IRS/IRS-VI/FundamentacionDeRobotica/TurboPlusPlus_FundamentacionRobotica/Processing/";
   File file = new File(base_directory + filename);
-  File filename_file = new File(filename);
-  System.out.println("Working Directory = " + System.getProperty("user.dir"));
-  Path currentRelativePath = Paths.get("");
-  String s = file.getAbsolutePath().toString();
-System.out.println("Current absolute path is: " + s);
   while(!file.exists()){
     System.out.println("Waiting for file to exist");
   }
