@@ -1,12 +1,30 @@
 import json
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 import math
+import speech_recognition as sr
 
 SPACE = 50
 LAST_WORD_ENDING = 0 # To calculate where the letter is going to end
 HEIGHT = 300
 phrase = "TINEIL"
+
+recognized = False
+while not recognized:
+    r= sr.Recognizer()
+    with sr.Microphone() as source:
+            print('Say my name ...')
+            r.pause_threshold = 1
+            r.adjust_for_ambient_noise(source)
+            audio = r.listen(source)
+    try:
+                phrase = (r.recognize_google(audio).lower()).upper()
+                print('You said: ' + phrase + '\n')
+                recognized = True
+
+    except sr.UnknownValueError:
+            print('Your last command couldn\'t be heard')
 
 # Function to calculate distance between two points
 def dist(p0, p1):
@@ -111,8 +129,7 @@ def rotate_coordinates(coordinates, axis, angle, translation, resize):
     rotation_matrix[(axis+1) % 3, (axis+1) % 3] = np.cos(angle)
     
     # Resizing coordinates
-    if(resize != 1):
-        coords = coords * resize;
+    coords = coords * resize
 
     # Rotate coordinates
     if(angle != 0):
@@ -136,16 +153,15 @@ rotated_word = rotate_coordinates(word, 1, np.pi/2, translation, .10)
 #rotated_word = rotate_coordinates(rotated_word, 2, np.pi/3*1, zerotranslation)
 
 # Plot 2D
-# plt.plot(word[:,0], word[:,1], 'ro') # Draw the whole trajectory
-# for i in range(len(word)):
-#     if(word[i,2] == 1):
-#         plt.plot(word[i,0], word[i,1], 'bo') # Draw 'added' points
-#
-# plt.grid(True)
-# plt.show()
+plt.plot(word[:,0], word[:,1], 'ro') # Draw the whole trajectory
+for i in range(len(word)):
+    if(word[i,2] == 1):
+        plt.plot(word[i,0], word[i,1], 'bo') # Draw 'added' points
+
+plt.grid(True)
+plt.show()
 
 # Plot 3D
-#from mpl_toolkits.mplot3d import Axes3D
 #fig = plt.figure(figsize=(12, 12))
 #ax = fig.add_subplot(projection='3d')
 #ax.scatter(rotated_word[:,0], rotated_word[:,1], rotated_word[:,2], c='b')
@@ -159,5 +175,5 @@ for i in range(len(word)):
 
 json_string = json.dumps(data2json_array)
 
-with open("/home/demian/Processing/Test_Robot/new_coordinates.json", "w") as fn:
+with open("new_coordinates.json", "w") as fn:
     fn.write(json_string)
