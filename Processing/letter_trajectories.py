@@ -153,20 +153,19 @@ rotated_word = rotate_coordinates(word, 1, np.pi/2, translation, .10)
 #rotated_word = rotate_coordinates(rotated_word, 0, np.pi/2*1, translation)
 #rotated_word = rotate_coordinates(rotated_word, 2, np.pi/3*1, zerotranslation)
 
-# Plot 2D
-plt.plot(word[:,0], word[:,1], 'ro') # Draw the whole trajectory
-for i in range(len(word)):
-    if(word[i,2] == 1):
-        plt.plot(word[i,0], word[i,1], 'bo') # Draw 'added' points
+# # Plot 2D
+# plt.plot(word[:,0], word[:,1], 'ro') # Draw the whole trajectory
+# for i in range(len(word)):
+#     if(word[i,2] == 1):
+#         plt.plot(word[i,0], word[i,1], 'bo') # Draw 'added' points
+# plt.grid(True)
+# plt.show()
 
-plt.grid(True)
-plt.show()
-
-# Plot 3D
-#fig = plt.figure(figsize=(12, 12))
-#ax = fig.add_subplot(projection='3d')
-#ax.scatter(rotated_word[:,0], rotated_word[:,1], rotated_word[:,2], c='b')
-#plt.show()
+# # Plot 3D
+# fig = plt.figure(figsize=(12, 12))
+# ax = fig.add_subplot(projection='3d')
+# ax.scatter(rotated_word[:,0], rotated_word[:,1], rotated_word[:,2], c='b')
+# plt.show()
 
 ## Converting array into json file
 data2json_array = []
