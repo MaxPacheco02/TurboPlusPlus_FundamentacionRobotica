@@ -129,7 +129,8 @@ def rotate_coordinates(coordinates, axis, angle, translation, resize):
     rotation_matrix[(axis+1) % 3, (axis+1) % 3] = np.cos(angle)
     
     # Resizing coordinates
-    coords = coords * resize
+    if(resize != 1):
+        coords = coords * resize
 
     # Rotate coordinates
     if(angle != 0):
