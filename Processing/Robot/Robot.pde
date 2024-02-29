@@ -66,7 +66,7 @@ void writePos(){
 		posY = coords.get(i).y;
 		posZ = coords.get(i).z; 
 		filled = isfilled.get(i);
-		i=i+2;		
+		i+=3;		
 	}else{
 		i=0;
 	}
@@ -192,15 +192,15 @@ int px = 0;
 int py = 0;
 int pz = 0;
 
-int nx = -55;
+int nx = -40;
 int ny = 0;
-int nz = -55;
+int nz = -40;
 void drawBox(){
 	pushMatrix();
 	translate(px+nx,py+ny,pz+nz);
 //	rotateY(radians(30)); // -Z
 
-	rotateX(radians(30)); // -X
+	rotateX(radians(50)); // -X
 	rotateZ(radians(30)); // -Y
 	fill(#abf1ab,90);
 	stroke(255);

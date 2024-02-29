@@ -10,7 +10,7 @@ import subprocess
 SPACE = 50
 LAST_WORD_ENDING = 0 # To calculate where the letter is going to end
 HEIGHT = 300
-phrase = "MAX"
+phrase = "MARIO"
 
 # Arguments for running with speech recognition (1) or without (other)
 if __name__ == "__main__":
@@ -20,7 +20,7 @@ if __name__ == "__main__":
     #                                        # takes secong argument as side of cube
 
     num1 = 2
-    side_of_cube = "3"
+    side_of_cube = "4"
 
 
 if (num1 == 1):
