@@ -10,11 +10,15 @@ import subprocess
 SPACE = 50
 LAST_WORD_ENDING = 0 # To calculate where the letter is going to end
 HEIGHT = 300
-phrase = "HEISE"
+phrase = "DAMIAN MARIN MARTINEZ"
 
-# Arguments for running with speech recognition or without
+# Arguments for running with speech recognition (1) or without (other)
 if __name__ == "__main__":
-    num1 = sys.argv[1]
+    num1 = int(sys.argv[1])
+    if(num1 != 1):
+        side_of_cube = sys.argv[2].upper() # if there is no speech recognition
+                                           # takes secong argument as side of cube
+
 
 if (num1 == 1):
     recognized = False
@@ -32,6 +36,21 @@ if (num1 == 1):
 
         except sr.UnknownValueError:
                 print('Your last command couldn\'t be heard')
+
+    # Deleting number from phrase and saving number in variable
+    last_space_index = phrase.rfind(" ")
+    side_of_cube = phrase[last_space_index+1:]
+    phrase = phrase[:last_space_index]
+
+# Cant write more than 10 characters
+if(len(phrase)>10):
+    phrase=phrase[:10]
+
+# Special case face 3
+if(side_of_cube == "THREE" or side_of_cube == "3" or side_of_cube == "TRES"):
+    if(len(phrase)>6): #Cant draw more than 6 characters on this face
+            phrase = phrase[:6]
+
 
 # Function to calculate distance between two points
 def dist(p0, p1):
@@ -169,7 +188,7 @@ def rotate_matrix(matrix, axis, angle):
 # Rotating coordinates
 # 2-x 1-y 0-z 
 angle = 90 #For choosing face of cube
-axis = 1  #For choosing face of cube
+axis = 2  #For choosing face of cube
 boxAngleY = -30
 boxAxisY = 1
 boxAngleX = -30
@@ -184,43 +203,60 @@ box_offset = np.array([55,55,0])
 
 # Translation of coordinates
 zerotranslation = np.array([0,0,0])
-translation_top = np.array([-25,0,-45])
-translation_bottom = np.array([-25,0,25])
+translation_top = np.array([-25,0,-50])
+translation_bottom = np.array([-25,0,30])
 translation_ff = np.array([-25,0,35])
-translation_bf = np.array([-25,-35,0])
-translation_lf = np.array([-35,0,-35])
-translation_rf = np.array([35,0,-35])
+translation_bf = np.array([-25,20,-35])
+translation_lf = np.array([-35,10,-40])
+translation_rf = np.array([-35,10,30])
+
+#Chossing side of cube
+user_angle = 90
+user_translation = translation_ff
+user_axis = 1 
+
+if(side_of_cube == "ONE" or side_of_cube == "1" or side_of_cube == "UNO"):
+    user_angle = 0
+    user_translation = translation_top
+    user_axis = 1 
+elif(side_of_cube == "TWO" or side_of_cube == "2" or side_of_cube == "DOS"):
+    user_angle = 0
+    user_translation = translation_bottom
+    user_axis = 1 
+elif(side_of_cube == "THREE" or side_of_cube == "3" or side_of_cube == "TRES"):
+    user_angle = 90
+    user_translation = translation_ff
+    user_axis = 1 
+elif(side_of_cube == "FOUR" or side_of_cube == "4" or side_of_cube == "QUATRO"):
+    user_angle = 90
+    user_translation = translation_bf
+    user_axis = 1 
+elif(side_of_cube == "FIVE" or side_of_cube == "5" or side_of_cube == "CINCO"):
+    user_angle = 90
+    user_translation = translation_lf
+    user_axis = 2 
+elif(side_of_cube == "SIX" or side_of_cube == "6" or side_of_cube == "SEIS"):
+    user_angle = 90
+    user_translation = translation_rf
+    user_axis = 2 
+
 
 # Rotating translation vetor
-rotated_translation = rotate_matrix(translation_ff, axis, (angle)*(np.pi)/180)
+rotated_translation = rotate_matrix(user_translation, user_axis, (user_angle)*(np.pi)/180)
 box_translation_y = rotate_matrix(rotated_translation, boxAxisY, (boxAngleY)*(np.pi)/180)
 box_translation_x = rotate_matrix(rotated_translation, boxAxisX, (boxAngleX)*(np.pi)/180)
 
 # First rotate (Word coordinates)
-rotated_word = rotate_coordinates(word, axis, (angle)*(np.pi)/180, zerotranslation, .03) #Choosing face of cube
+rotated_word = rotate_coordinates(word, user_axis, (user_angle)*(np.pi)/180, zerotranslation, .02) #Choosing face of cube
 box_rotated_word = rotate_coordinates(rotated_word, boxAxisY, (boxAngleY)*(np.pi)/180, zerotranslation, 1) #Angle of boxY
 box_rotated_word = rotate_coordinates(box_rotated_word, boxAxisX, (boxAngleX)*(np.pi)/180, zerotranslation, 1) #Angle of boxX
 # Second translate
-rotated_word = rotate_coordinates(box_rotated_word, axis, 0, box_translation_x + box_offset, 1) 
+rotated_word = rotate_coordinates(box_rotated_word, user_axis, 0, box_translation_x + box_offset, 1) 
 
 #Base case
 #word = rotate_coordinates(word , axis, (angle)*(np.pi)/180, zerotranslation, 1)
-#translation_ff = rotate_matrix(translation_ff, axis, (angle)*(np.pi)/180)
-#rotated_word = rotate_coordinates(word, 1, 0, translation_ff, 0.03) 
-
-# # Plot 2D
-# plt.plot(word[:,0], word[:,1], 'ro') # Draw the whole trajectory
-# for i in range(len(word)):
-#     if(word[i,2] == 1):
-#         plt.plot(word[i,0], word[i,1], 'bo') # Draw 'added' points
-# plt.grid(True)
-# plt.show()
-
-# # Plot 3D
-# fig = plt.figure(figsize=(12, 12))
-# ax = fig.add_subplot(projection='3d')
-# ax.scatter(rotated_word[:,0], rotated_word[:,1], rotated_word[:,2], c='b')
-# plt.show()
+#translation_bottom = rotate_matrix(translation_top , axis, (angle)*(np.pi)/180)
+#rotated_word = rotate_coordinates(word, 1, 0, translation_top, 0.02) 
 
 ## Converting array into json file
 data2json_array = []
@@ -237,4 +273,3 @@ with open("./Robot/new_coordinates.json", "w") as fn:
 
 process = subprocess.run(["bash", "run_sketch.sh"])
 
-sys.exit()
