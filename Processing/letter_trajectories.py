@@ -14,7 +14,7 @@ recognized = False
 while not recognized:
     r= sr.Recognizer()
     with sr.Microphone() as source:
-            print('Say my name ...')
+            print('Di tu nombre:')
             r.pause_threshold = 1
             r.adjust_for_ambient_noise(source)
             audio = r.listen(source)
