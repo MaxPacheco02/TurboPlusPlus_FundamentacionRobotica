@@ -17,7 +17,7 @@ void loadData(){
 	String filename = "new_coordinates.json";
 
   // Cambiar esto dependiendo del path de cada quien
-  String base_directory =  "/home/demian/TurboPlusPlus_FundamentacionRobotica-main/Processing/Robot/";
+  String base_directory =  "/home/demian/TurboPlusPlus_FundamentacionRobotica/Processing/Robot/";
   File file = new File(base_directory + filename);
   while(!file.exists()){
     System.out.println("Waiting for file to exist");
