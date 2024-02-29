@@ -17,7 +17,7 @@ void loadData(){
 	String filename = "new_coordinates.json";
 
   // Cambiar esto dependiendo del path de cada quien
-  String base_directory =  "/C:/Users/maxpr/ITESM/IRS/IRS-VI/FundamentacionDeRobotica/TurboPlusPlus_FundamentacionRobotica/Processing/";
+  String base_directory =  "/home/demian/TurboPlusPlus_FundamentacionRobotica-main/Processing/Robot/";
   File file = new File(base_directory + filename);
   while(!file.exists()){
     System.out.println("Waiting for file to exist");
@@ -118,17 +118,19 @@ void draw(){
 	translate(width/2, height/2);
 	rotateX(rotX);
 	rotateY(-rotY);
-	scale(-2);
+	scale(-3);
 
 	for (int i=0; i < Xsphere.length; i++) {
 		pushMatrix();
 		translate(-Ysphere[i], -Zsphere[i]-11, -Xsphere[i]);
-		fill(#920100, 100);
-		sphere(2);
+		fill(#910100, 100);
+		sphere(0.5);
 		popMatrix();
 	}
 
-	drawAxis();
+//	drawAxis();
+	drawCoordinates();
+	drawBox();
 
 	fill(#FFE308);
 	translate(0,-40,0);
@@ -165,11 +167,43 @@ void drawAxis(){
 	translate(0,0,0);
 	rotateX(PI);
 	rotateY(PI/2 * 3);
+	stroke(#01016f); //red x-axis
+	line(0,0,500,0,0,0);
+	stroke(#d8031c); //blue y-axis
+	line(0,0,0,500,0,0);
+	popMatrix();
+}
+
+void drawCoordinates(){
+	pushMatrix();
+	translate(0,0,0);
+	rotateX(PI);
+	rotateY(PI/2 * 3);
 	String info = "X: " + nf(posX,0,2) +" "+ "Y: " + nf(posY,0,2) +" "+ "Z: " + nf(posZ,0,2);
-	text(info,-100,-100,-100); 
-	//stroke(#01016f); //blue x-axis
-	//line(0,0,-500,0,0,0);
-	//stroke(#d8031c); //red y-axis
-	//line(0,0,0,-500,0,0);
+	text(info,70,-50,-100);
+	popMatrix();
+}
+
+//int px = -40;
+//int py = -61;
+//int pz = -50;
+
+int px = 0;
+int py = 0;
+int pz = 0;
+
+int nx = -55;
+int ny = 0;
+int nz = -55;
+void drawBox(){
+	pushMatrix();
+	translate(px+nx,py+ny,pz+nz);
+//	rotateY(radians(30)); // -Z
+
+	rotateX(radians(30)); // -X
+	rotateZ(radians(30)); // -Y
+	fill(#abf1ab,90);
+	stroke(255);
+	box(70);
 	popMatrix();
 }
