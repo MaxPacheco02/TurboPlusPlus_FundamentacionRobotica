@@ -10,14 +10,17 @@ import subprocess
 SPACE = 50
 LAST_WORD_ENDING = 0 # To calculate where the letter is going to end
 HEIGHT = 300
-phrase = "DAMIAN MARIN MARTINEZ"
+phrase = "MAX"
 
 # Arguments for running with speech recognition (1) or without (other)
 if __name__ == "__main__":
-    num1 = int(sys.argv[1])
-    if(num1 != 1):
-        side_of_cube = sys.argv[2].upper() # if there is no speech recognition
-                                           # takes secong argument as side of cube
+    # num1 = int(sys.argv[1])
+    # if(num1 != 1):
+    #     side_of_cube = sys.argv[2].upper() # if there is no speech recognition
+    #                                        # takes secong argument as side of cube
+
+    num1 = 2
+    side_of_cube = "3"
 
 
 if (num1 == 1):
@@ -25,7 +28,7 @@ if (num1 == 1):
     while not recognized:
         r= sr.Recognizer()
         with sr.Microphone() as source:
-                print('Say my name ...')
+                print('Say your name:')
                 r.pause_threshold = 1
                 r.adjust_for_ambient_noise(source)
                 audio = r.listen(source)
@@ -43,13 +46,13 @@ if (num1 == 1):
     phrase = phrase[:last_space_index]
 
 # Cant write more than 10 characters
-if(len(phrase)>10):
-    phrase=phrase[:10]
+# if(len(phrase)>10):
+#     phrase=phrase[:10]
 
 # Special case face 3
-if(side_of_cube == "THREE" or side_of_cube == "3" or side_of_cube == "TRES"):
-    if(len(phrase)>6): #Cant draw more than 6 characters on this face
-            phrase = phrase[:6]
+# if(side_of_cube == "THREE" or side_of_cube == "3" or side_of_cube == "TRES"):
+#     if(len(phrase)>6): #Cant draw more than 6 characters on this face
+#             phrase = phrase[:6]
 
 
 # Function to calculate distance between two points
@@ -191,24 +194,24 @@ angle = 90 #For choosing face of cube
 axis = 2  #For choosing face of cube
 boxAngleY = -30
 boxAxisY = 1
-boxAngleX = -30
+boxAngleX = -50
 boxAxisX = 2
 boxAngleZ = -30
 boxAxisZ = 0
 
 # Offset of box
-box_offset = np.array([55,55,0])
+box_offset = np.array([40,40,0])
 #box_offset = rotate_matrix(box_offset, boxAxisY, (boxAngleY)*(np.pi)/180)
 #box_offset = rotate_matrix(box_offset, boxAxisX, (boxAngleX)*(np.pi)/180)
 
 # Translation of coordinates
 zerotranslation = np.array([0,0,0])
-translation_top = np.array([-25,0,-50])
-translation_bottom = np.array([-25,0,30])
-translation_ff = np.array([-25,0,35])
-translation_bf = np.array([-25,20,-35])
-translation_lf = np.array([-35,10,-40])
-translation_rf = np.array([-35,10,30])
+translation_top = np.array([43,15,-40])
+translation_bottom = np.array([43,20,-22]) # y, x, z
+translation_ff = np.array([43,15,-28])
+translation_bf = np.array([10,55,-15])
+translation_lf = np.array([-24,-15,45])
+translation_rf = np.array([-34,22,28])
 
 #Chossing side of cube
 user_angle = 90
@@ -220,19 +223,19 @@ if(side_of_cube == "ONE" or side_of_cube == "1" or side_of_cube == "UNO"):
     user_translation = translation_top
     user_axis = 1 
 elif(side_of_cube == "TWO" or side_of_cube == "2" or side_of_cube == "DOS"):
-    user_angle = 0
+    user_angle = 180
     user_translation = translation_bottom
     user_axis = 1 
 elif(side_of_cube == "THREE" or side_of_cube == "3" or side_of_cube == "TRES"):
-    user_angle = 90
+    user_angle = -90
     user_translation = translation_ff
     user_axis = 1 
-elif(side_of_cube == "FOUR" or side_of_cube == "4" or side_of_cube == "QUATRO"):
+elif(side_of_cube == "FOUR" or side_of_cube == "4" or side_of_cube == "CUATRO"):
     user_angle = 90
     user_translation = translation_bf
     user_axis = 1 
 elif(side_of_cube == "FIVE" or side_of_cube == "5" or side_of_cube == "CINCO"):
-    user_angle = 90
+    user_angle = -90
     user_translation = translation_lf
     user_axis = 2 
 elif(side_of_cube == "SIX" or side_of_cube == "6" or side_of_cube == "SEIS"):
@@ -241,13 +244,18 @@ elif(side_of_cube == "SIX" or side_of_cube == "6" or side_of_cube == "SEIS"):
     user_axis = 2 
 
 
-# Rotating translation vetor
+# Rotating translation vector
 rotated_translation = rotate_matrix(user_translation, user_axis, (user_angle)*(np.pi)/180)
 box_translation_y = rotate_matrix(rotated_translation, boxAxisY, (boxAngleY)*(np.pi)/180)
 box_translation_x = rotate_matrix(rotated_translation, boxAxisX, (boxAngleX)*(np.pi)/180)
 
 # First rotate (Word coordinates)
-rotated_word = rotate_coordinates(word, user_axis, (user_angle)*(np.pi)/180, zerotranslation, .02) #Choosing face of cube
+# rotated_word = rotate_coordinates(word, user_axis, np.pi, zerotranslation, 1) #Choosing face of cube
+rotated_word = rotate_coordinates(word, (user_axis+1) % 3, np.pi, zerotranslation, 1) #Choosing face of cube
+if side_of_cube == "FOUR" or side_of_cube == "4" or side_of_cube == "CUATRO":
+    rotated_word = rotate_coordinates(rotated_word, (user_axis+2) % 3, np.pi/2, zerotranslation, 1) #Choosing face of cube
+rotated_word = rotate_coordinates(rotated_word, user_axis, np.pi, zerotranslation, 1) #Choosing face of cube
+rotated_word = rotate_coordinates(rotated_word, user_axis, (user_angle)*(np.pi)/180, zerotranslation, (70/LAST_WORD_ENDING)) #Choosing face of cube
 box_rotated_word = rotate_coordinates(rotated_word, boxAxisY, (boxAngleY)*(np.pi)/180, zerotranslation, 1) #Angle of boxY
 box_rotated_word = rotate_coordinates(box_rotated_word, boxAxisX, (boxAngleX)*(np.pi)/180, zerotranslation, 1) #Angle of boxX
 # Second translate
@@ -271,5 +279,6 @@ with open("./Robot/new_coordinates.json", "w") as fn:
     fn.write(json_string)
 
 
-process = subprocess.run(["bash", "run_sketch.sh"])
+# process = subprocess.run(["bash", "run_sketch.sh"])
 
+# 3543*.02 en Python es mas o menos igual a 70 en processing
