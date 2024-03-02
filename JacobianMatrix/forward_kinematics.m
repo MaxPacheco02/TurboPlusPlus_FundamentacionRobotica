@@ -55,11 +55,7 @@ plot3(mR(1,4),mR(2,4), mR(3,4),'bo');
 hold on
 
 plot3(p(:,1),p(:,2),p(:,3),'-');
-
-
-% m2(1,3) = l1;
-% m3(1,3) = l2;
-% 
-% [x1,y1] = (m1*m2)*m3;
-
-
+x = l1*cos(t1) - l3*(cos(t1)*sin(t2)*sin(t3) - cos(t1)*cos(t2)*cos(t3)) + l2*cos(t1)*cos(t2);
+y = l1*sin(t1) - l3*(sin(t1)*sin(t2)*sin(t3) - cos(t2)*cos(t3)*sin(t1)) + l2*cos(t2)*sin(t1);
+z = - l3*(cos(t2)*sin(t3) + cos(t3)*sin(t2)) - l2*sin(t2);
+plot3(x,y,z,'k*');
