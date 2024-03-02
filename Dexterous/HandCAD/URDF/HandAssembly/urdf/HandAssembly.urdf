@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="HandAssembly">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-0.093667 -1.6349E-10 -0.53523"
+        rpy="0 0 0" />
+      <mass
+        value="279.34" />
+      <inertia
+        ixx="34.928"
+        ixy="8.1329E-09"
+        ixz="2.0701"
+        iyy="35.714"
+        iyz="-2.1355E-09"
+        izz="12.242" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="finger_1">
+    <inertial>
+      <origin
+        xyz="0.057895 0.0060615 0.04"
+        rpy="0 0 0" />
+      <mass
+        value="2.6229" />
+      <inertia
+        ixx="0.0060931"
+        ixy="-0.00097012"
+        ixz="3.6127E-08"
+        iyy="0.015257"
+        iyz="-1.6814E-07"
+        izz="0.018807" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin1"
+    type="revolute">
+    <origin
+      xyz="0.30864 -0.175 -1.2226"
+      rpy="0 0.58249 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="finger_1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="2"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_1_1">
+    <inertial>
+      <origin
+        xyz="0.083387 -0.070553 1.3914E-07"
+        rpy="0 0 0" />
+      <mass
+        value="2.3997" />
+      <inertia
+        ixx="0.0094802"
+        ixy="0.0052724"
+        ixz="1.8644E-08"
+        iyy="0.011251"
+        iyz="-1.3922E-08"
+        izz="0.012658" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_1_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_1_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin1_1"
+    type="revolute">
+    <origin
+      xyz="0.18245 0.019102 0.034754"
+      rpy="-1.5708 -0.57999 0.10432" />
+    <parent
+      link="finger_1" />
+    <child
+      link="finger_1_1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="2"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_1_1_1">
+    <inertial>
+      <origin
+        xyz="-0.004652 -0.062776 7.675E-09"
+        rpy="0 0 0" />
+      <mass
+        value="0.67086" />
+      <inertia
+        ixx="0.0012103"
+        ixy="-4.6906E-05"
+        ixz="-1.9006E-11"
+        iyy="0.00058076"
+        iyz="-6.0201E-10"
+        izz="0.0012061" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_1_1_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_1_1_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin1_1_1"
+    type="revolute">
+    <origin
+      xyz="0.17907 -0.1614 0"
+      rpy="0 0 0" />
+    <parent
+      link="finger_1_1" />
+    <child
+      link="finger_1_1_1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="2"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_2">
+    <inertial>
+      <origin
+        xyz="0.058184 0.0017727 0.04"
+        rpy="0 0 0" />
+      <mass
+        value="2.6229" />
+      <inertia
+        ixx="0.0060004"
+        ixy="-0.00028507"
+        ixz="-6.0758E-08"
+        iyy="0.01535"
+        iyz="-1.8252E-07"
+        izz="0.018806" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin2"
+    type="revolute">
+    <origin
+      xyz="0.38255 0 -0.78051"
+      rpy="0 -0.43641 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="finger_2" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="2"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_2_1">
+    <inertial>
+      <origin
+        xyz="0.09843 0.047359 1.136E-07"
+        rpy="0 0 0" />
+      <mass
+        value="2.3997" />
+      <inertia
+        ixx="0.0070293"
+        ixy="-0.0041775"
+        ixz="2.1588E-08"
+        iyy="0.013702"
+        iyz="1.1704E-08"
+        izz="0.012658" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_2_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_2_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin2_1"
+    type="revolute">
+    <origin
+      xyz="0.18145 0.0055277 0.044234"
+      rpy="-1.5708 0.43624 0.030455" />
+    <parent
+      link="finger_2" />
+    <child
+      link="finger_2_1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="2"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_2_1_1">
+    <inertial>
+      <origin
+        xyz="-0.010621 0.062046 8.2758E-09"
+        rpy="0 0 0" />
+      <mass
+        value="0.67086" />
+      <inertia
+        ixx="0.0011956"
+        ixy="0.00010585"
+        ixz="4.975E-11"
+        iyy="0.00059541"
+        iyz="-3.6033E-10"
+        izz="0.0012061" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_2_1_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_2_1_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin2_1_1"
+    type="revolute">
+    <origin
+      xyz="0.21061 0.11129 0"
+      rpy="0 0 0" />
+    <parent
+      link="finger_2_1" />
+    <child
+      link="finger_2_1_1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="2"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_3">
+    <inertial>
+      <origin
+        xyz="0.058211 0.00023091 0.04"
+        rpy="0 0 0" />
+      <mass
+        value="2.6229" />
+      <inertia
+        ixx="0.0059916"
+        ixy="-3.7129E-05"
+        ixz="1.5749E-08"
+        iyy="0.015359"
+        iyz="-1.6961E-07"
+        izz="0.018807" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin3"
+    type="revolute">
+    <origin
+      xyz="0.30864 0.175 -1.2226"
+      rpy="0 0.58249 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="finger_3" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="2"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_3_1">
+    <inertial>
+      <origin
+        xyz="0.081768 -0.072423 1.9716E-07"
+        rpy="0 0 0" />
+      <mass
+        value="2.3997" />
+      <inertia
+        ixx="0.0097197"
+        ixy="0.005307"
+        ixz="1.3311E-09"
+        iyy="0.011011"
+        iyz="1.5547E-09"
+        izz="0.012658" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_3_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_3_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin3_1"
+    type="revolute">
+    <origin
+      xyz="0.18357 0.000728 0.034717"
+      rpy="-1.5708 -0.58248 0.0039657" />
+    <parent
+      link="finger_3" />
+    <child
+      link="finger_3_1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="2"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_3_1_1">
+    <inertial>
+      <origin
+        xyz="0.00039413 -0.062947 8.8667E-09"
+        rpy="0 0 0" />
+      <mass
+        value="0.67086" />
+      <inertia
+        ixx="0.0012137"
+        ixy="3.985E-06"
+        ixz="-1.256E-12"
+        iyy="0.00057731"
+        iyz="3.9831E-10"
+        izz="0.0012061" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_3_1_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandAssembly/meshes/finger_3_1_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin3_1_1"
+    type="revolute">
+    <origin
+      xyz="0.17633 -0.16546 0"
+      rpy="0 0 0" />
+    <parent
+      link="finger_3_1" />
+    <child
+      link="finger_3_1_1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="2"
+      effort="0"
+      velocity="0" />
+  </joint>
+</robot>
