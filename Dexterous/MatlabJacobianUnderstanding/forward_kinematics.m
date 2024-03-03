@@ -44,7 +44,7 @@ rotI = eye(3);
 m1 = [rot1,[0;0;0];0,0,0,1];
 m2 = [rotI,[l1;0;0];0,0,0,1];
 mR = m1*m2;
-p = [p; mR(1,4),mR(2,4),mR(3,4)] % Position of joint 1
+p = [p; mR(1,4),mR(2,4),mR(3,4)]; % Position of joint 1
 plot3(mR(1,4),mR(2,4), mR(3,4),'ro');
 hold on
 
