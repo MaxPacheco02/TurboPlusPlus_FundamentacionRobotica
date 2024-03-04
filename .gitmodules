@@ -1,0 +1,3 @@
+[submodule "xarm_ros2"]
+	path = xarm_ros2
+	url = https://github.com/MaxPacheco02/xarm_ros2.git
