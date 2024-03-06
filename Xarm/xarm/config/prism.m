@@ -3,7 +3,7 @@ clear all
 clc
 
 % Create a rectangular prism
-width = 1;      % Width of the prism
+width = 0.4;      % Width of the prism
 height = 0.5;     % Height of the prism
 depth = 1;      % Depth of the prism
 
@@ -38,7 +38,7 @@ for i = 1:size(edges, 1)
     x = vertices(edges(i, :), 1);
     y = vertices(edges(i, :), 2);
     z = vertices(edges(i, :), 3);
-    n = 10;
+    n = 6;
     x_l = linspace(x_list(size(x_list,2)), x(2), n);
     y_l = linspace(y_list(size(y_list,2)), y(2), n);
     z_l = linspace(z_list(size(z_list,2)), z(2), n);
@@ -50,9 +50,9 @@ end
 for i = 1:size(x_list,2)
     addpoints(h, x_list(i), y_list(i), z_list(i));
     drawnow limitrate;
-    x_list(i) = x_list(i) + 0.2;
-    y_list(i) = y_list(i) + 0.2;
-    z_list(i) = z_list(i) + 0.2;
+    x_list(i) = x_list(i);
+    y_list(i) = y_list(i);
+    z_list(i) = z_list(i);
 end
 
 csv_file_path = 'prism.csv'; % Specify the output CSV file path

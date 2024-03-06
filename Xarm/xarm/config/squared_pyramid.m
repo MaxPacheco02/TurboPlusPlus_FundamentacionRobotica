@@ -45,9 +45,9 @@ end
 for i = 1:size(x_list,2)
     addpoints(h, x_list(i), y_list(i), z_list(i));
     drawnow limitrate;
-    x_list(i) = x_list(i) + 0.2;
-    y_list(i) = y_list(i) + 0.2;
-    z_list(i) = z_list(i) + 0.2;
+    x_list(i) = x_list(i);
+    y_list(i) = y_list(i);
+    z_list(i) = z_list(i);
 end
 
 csv_file_path = 'squared_pyramid.csv'; % Specify the output CSV file path

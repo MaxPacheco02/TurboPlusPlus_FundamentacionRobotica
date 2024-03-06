@@ -22,7 +22,7 @@ y_list = [0];
 z_list = [0];
 for i = 1:size(x, 2)-1
     for j = 1:size(z, 1)
-        n = 10;
+        n = 5;
         x_l = linspace(x_list(size(x_list,2)), x(i), n);
         y_l = linspace(y_list(size(y_list,2)), y(i), n);
         z_l = linspace(z_list(size(z_list,2)), z(j, i), n);
@@ -33,7 +33,7 @@ for i = 1:size(x, 2)-1
 end
 
 % Add the top and bottom faces of the hexagonal prism
-for r = linspace(0, radius, 10) % draw concentric hexagons
+for r = linspace(0, radius, 1) % draw concentric hexagons
     x = r*cos(theta); % x-coordinates for the top and bottom faces
     y = r*sin(theta); % y-coordinates for the top and bottom faces
     z = zeros(size(theta)); % z-coordinates for the bottom face

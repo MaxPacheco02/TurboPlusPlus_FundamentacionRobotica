@@ -6,7 +6,7 @@ clc
 radius = 1;      % Radius of the sphere
 
 % Define the sphere
-[theta, phi] = meshgrid(linspace(0,2*pi,20), linspace(-pi/2,pi/2,20)); % meshgrid for the sphere
+[theta, phi] = meshgrid(linspace(0,2*pi,10), linspace(-pi/2,pi/2,10)); % meshgrid for the sphere
 x = radius*cos(theta).*cos(phi); % x-coordinates
 y = radius*sin(theta).*cos(phi); % y-coordinates
 z = radius*sin(phi); % z-coordinates
@@ -33,9 +33,9 @@ end
 for i = 1:size(x_list,2)
     addpoints(h, x_list(i), y_list(i), z_list(i));
     drawnow limitrate;
-    x_list(i) = x_list(i) + 0.2;
-    y_list(i) = y_list(i) + 0.2;
-    z_list(i) = z_list(i) + 0.2;
+    x_list(i) = x_list(i);
+    y_list(i) = y_list(i);
+    z_list(i) = z_list(i);
 end
 csv_file_path = 'sphere.csv'; % Specify the output CSV file path
 writematrix([x_list;y_list;z_list]', csv_file_path);

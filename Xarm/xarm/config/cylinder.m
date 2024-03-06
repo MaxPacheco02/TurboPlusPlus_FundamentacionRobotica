@@ -4,10 +4,10 @@ clc
 
 % Create a cylinder
 radius = 1;      % Radius of the base of the cylinder
-height = 1;      % Height of the cylinder
+height = 0.5;      % Height of the cylinder
 
 % Define the cylinder
-[theta, z] = meshgrid(linspace(0,2*pi,10), linspace(0,height,10)); % meshgrid for the cylinder
+[theta, z] = meshgrid(linspace(0,2*pi,15), linspace(0,height,5)); % meshgrid for the cylinder
 x = radius*cos(theta); % x-coordinates
 y = radius*sin(theta); % y-coordinates
 
@@ -31,8 +31,8 @@ for i = 1:size(x, 1)
 end
 
 % Add the top and bottom faces of the cylinder
-for r = linspace(0, radius, 10) % draw concentric circles
-    theta = linspace(0,2*pi,10);
+for r = linspace(0, radius, 5) % draw concentric circles
+    theta = linspace(0,2*pi,15);
     x = r*cos(theta); % x-coordinates for the top and bottom faces
     y = r*sin(theta); % y-coordinates for the top and bottom faces
     z = zeros(size(theta)); % z-coordinates for the bottom face

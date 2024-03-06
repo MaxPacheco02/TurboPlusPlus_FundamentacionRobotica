@@ -7,7 +7,7 @@ radius = 1;      % Radius of the base of the cone
 height = 1;      % Height of the cone
 
 % Define the cone
-[theta, z] = meshgrid(linspace(0,2*pi,20), linspace(0,height,20)); % meshgrid for the cone
+[theta, z] = meshgrid(linspace(0,2*pi,10), linspace(0,height,5)); % meshgrid for the cone
 x = radius*(1-z/height).*cos(theta); % x-coordinates
 y = radius*(1-z/height).*sin(theta); % y-coordinates
 
@@ -33,9 +33,9 @@ end
 for i = 1:size(x_list,2)
     addpoints(h, x_list(i), y_list(i), z_list(i));
     drawnow limitrate;
-    x_list(i) = x_list(i) + 0.2;
-    y_list(i) = y_list(i) + 0.2;
-    z_list(i) = z_list(i) + 0.2;
+    x_list(i) = x_list(i);
+    y_list(i) = y_list(i);
+    z_list(i) = z_list(i);
 end
 
 csv_file_path = 'cone.csv'; % Specify the output CSV file path
