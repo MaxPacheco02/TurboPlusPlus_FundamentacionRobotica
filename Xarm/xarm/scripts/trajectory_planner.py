@@ -37,7 +37,6 @@ Z_OFFSET = 0.2
 Z_ADDER = 0 # For the sphere huh
 
 class TrajectoryPlannerNode(Node):
-    published = True
     shape_option = 0
     drawing = MarkerArray()
     i = 0
@@ -95,22 +94,12 @@ class TrajectoryPlannerNode(Node):
 
             except sr.UnknownValueError:
                     print('Your last command couldn\'t be heard')
-
-
-
-
         
         self.path_pub_ = self.create_publisher(Path, '/xarm_planned_path', 10)
         self.marker_pub_ = self.create_publisher(MarkerArray, '/mk_arr', 10)
 
         self.tf_buffer = Buffer()
         self.tf_listener = TransformListener(self.tf_buffer, self)
-
-        self.shape_option_sub = self.create_subscription(
-            Int8,
-            "/shape_option",
-            self.shape_option_callback,
-            10)
         
         timer_period = 0.01
         self.timer = self.create_timer(timer_period, self.timer_callback)
@@ -154,7 +143,7 @@ class TrajectoryPlannerNode(Node):
         pose_stmpd.pose.orientation.z = 0.0
 
         self.path_.poses.append(pose_stmpd)
-
+        self.path_pub_.publish(self.path_)
 
     def timer_callback(self):
         from_frame_rel = 'world'
@@ -194,16 +183,6 @@ class TrajectoryPlannerNode(Node):
             self.get_logger().info(
                 f'Could not transform {to_frame_rel} to {from_frame_rel}: {ex}')
             return
-
-
-        if not self.published:
-            self.path_pub_.publish(self.path_)
-            self.published = True
-
-    def shape_option_callback(self, msg):
-        if msg.data != self.shape_option:
-            self.published = False
-            self.shape_option = msg.data
 
 def main(args=None):
     rclpy.init(args=args)
