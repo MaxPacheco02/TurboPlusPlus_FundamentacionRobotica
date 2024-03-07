@@ -26,11 +26,15 @@ from std_msgs.msg import ColorRGBA, Int8
 from nav_msgs.msg import Path
 from visualization_msgs.msg import Marker, MarkerArray
 
-FIG_SCALE = 0.02
+import speech_recognition as sr
+
+FIG_SCALE = 0.05
 
 X_OFFSET = 0.2
 Y_OFFSET = 0.2
 Z_OFFSET = 0.2
+
+Z_ADDER = 0 # For the sphere huh
 
 class TrajectoryPlannerNode(Node):
     published = True
@@ -39,7 +43,63 @@ class TrajectoryPlannerNode(Node):
     i = 0
 
     def __init__(self):
+        global Z_ADDER, FIG_SCALE
         super().__init__('trajectory_planner')
+
+        recognized = False
+        while not recognized:
+            r= sr.Recognizer()
+            with sr.Microphone() as source:
+                    print('Choose a figure:')
+                    print('1: Cone')
+                    print('2: Cube')
+                    print('3: Cylinder')
+                    print('4: Hexagonal Prism')
+                    print('5: Prism')
+                    print('6: Sphere')
+                    print('7: Squared Pyramid')
+                    print('8: Triangular Prism')
+                    print('9: Triangular Pyramid')
+                    r.pause_threshold = 1
+                    r.adjust_for_ambient_noise(source)
+                    audio = r.listen(source)
+            try:
+                        phrase = (r.recognize_google(audio, language="es-419").lower())
+                        print('You said: ' + phrase + '\n')
+                        opt = ''
+                        if(phrase == 'uno' or phrase == '1'):
+                            opt = 'cone'
+                        if(phrase == 'dos' or phrase == '2'):
+                            opt = 'cube'
+                        if(phrase == 'tres' or phrase == '3'):
+                            opt = 'cylinder'
+                        if(phrase == 'cuatro' or phrase == '4'):
+                            opt = 'hexagonal_prism'
+                        if(phrase == 'cinco' or phrase == '5'):
+                            opt = 'prism'
+                            FIG_SCALE = 0.1
+                        if(phrase == 'seis' or phrase == '6'):
+                            opt = 'sphere'
+                            Z_ADDER = 1
+                        if(phrase == 'siete' or phrase == '7'):
+                            opt = 'squared_pyramid'
+                        if(phrase == 'ocho' or phrase == '8'):
+                            opt = 'triangular_prism'
+                        if(phrase == 'nueve' or phrase == '9'):
+                            opt = 'triangular_pyramid'
+                        
+                        if opt != '':
+                            recognized = True
+                        else:
+                             print('Try again!')
+
+            except sr.UnknownValueError:
+                    print('Your last command couldn\'t be heard')
+
+
+
+
+        
         self.path_pub_ = self.create_publisher(Path, '/xarm_planned_path', 10)
         self.marker_pub_ = self.create_publisher(MarkerArray, '/mk_arr', 10)
 
@@ -58,9 +118,7 @@ class TrajectoryPlannerNode(Node):
         self.wp_file_ = os.path.join(
             get_package_share_directory('xarm'),
             'config',
-            # 'cone.csv'
-            # 'cube.csv'
-            'cylinder.csv'
+            opt + '.csv'
             # 'prueba.csv'
         )
 
@@ -75,7 +133,7 @@ class TrajectoryPlannerNode(Node):
                 pose_stmpd.header.frame_id = "world"
                 pose_stmpd.pose.position.x = float(row[0])*FIG_SCALE + X_OFFSET
                 pose_stmpd.pose.position.y = float(row[1])*FIG_SCALE + Y_OFFSET
-                pose_stmpd.pose.position.z = float(row[2])*FIG_SCALE + Z_OFFSET
+                pose_stmpd.pose.position.z = (float(row[2]) + Z_ADDER)*FIG_SCALE + Z_OFFSET
                 # pose_stmpd.pose.position.x = float(row[0])
                 # pose_stmpd.pose.position.y = float(row[1])
                 # pose_stmpd.pose.position.z = float(row[2])
@@ -87,12 +145,9 @@ class TrajectoryPlannerNode(Node):
                 self.path_.poses.append(pose_stmpd)
         pose_stmpd = PoseStamped()
         pose_stmpd.header.frame_id = "world"
-        pose_stmpd.pose.position.x = 0.0
-        pose_stmpd.pose.position.y = 0.0
-        pose_stmpd.pose.position.z = 0.0
-        # pose_stmpd.pose.position.x = float(row[0])
-        # pose_stmpd.pose.position.y = float(row[1])
-        # pose_stmpd.pose.position.z = float(row[2])
+        pose_stmpd.pose.position.x = X_OFFSET
+        pose_stmpd.pose.position.y = Y_OFFSET
+        pose_stmpd.pose.position.z = 0.15
         pose_stmpd.pose.orientation.w = 0.0
         pose_stmpd.pose.orientation.x = 1.0
         pose_stmpd.pose.orientation.y = 0.0
@@ -112,7 +167,7 @@ class TrajectoryPlannerNode(Node):
                 rclpy.time.Time())
             print(f'Pose: x = {t.transform.translation.x}, y = {t.transform.translation.y}, z = {t.transform.translation.z}')
             
-            if t.transform.translation.z >= Z_OFFSET + 0.2*FIG_SCALE*0.99*0:
+            if t.transform.translation.z >= Z_OFFSET - 0.001:
                 dot = Marker()
                 dot.color = ColorRGBA()
                 dot.color.r = 1.0
