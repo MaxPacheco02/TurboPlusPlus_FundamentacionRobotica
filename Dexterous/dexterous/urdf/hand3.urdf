@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="hand">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-0.0936672124273331 1.63489999316369E-10 0.535231939309104"
+        rpy="0 0 0" />
+      <mass
+        value="279.343309739745" />
+      <inertia
+        ixx="34.9281247022782"
+        ixy="-8.13293010261419E-09"
+        ixz="-2.07006228380223"
+        iyy="35.7141019454583"
+        iyz="-2.13551762593278E-09"
+        izz="12.2415875307062" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="finger_1">
+    <inertial>
+      <origin
+        xyz="0.0582113836736708 -3.44043969141561E-06 0.0400000490133948"
+        rpy="0 0 0" />
+      <mass
+        value="2.6229121926556" />
+      <inertia
+        ixx="0.00599150098132531"
+        ixy="5.80774439257149E-07"
+        ixz="1.56203462946432E-08"
+        iyy="0.0153590426624098"
+        iyz="-1.69860489282124E-07"
+        izz="0.0188065552953476" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin1"
+    type="revolute">
+    <origin
+      xyz="0.30864 0.175 1.2226"
+      rpy="3.1416 -0.58249 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="finger_1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1"
+      upper="1"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_1_1">
+    <inertial>
+      <origin
+        xyz="0.0947429860836916 0.0543603118723592 1.13233871890106E-07"
+        rpy="0 0 0" />
+      <mass
+        value="2.39970738830488" />
+      <inertia
+        ixx="0.0076675328051772"
+        ixy="-0.00461551646509514"
+        ixz="2.00131415440553E-08"
+        iyy="0.0130634956772324"
+        iyz="1.29972875113723E-08"
+        izz="0.0126583730986514" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_1_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_1_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin1_1"
+    type="revolute">
+    <origin
+      xyz="0.179538449644514 -1.07387640339573E-05 0.0396629523318704"
+      rpy="-1.5707963267949 -0.582486578802211 -5.9813179065596E-05" />
+    <parent
+      link="finger_1" />
+    <child
+      link="finger_1_1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="1.2"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_1_1_1">
+    <inertial>
+      <origin
+        xyz="0.0528495757785843 0.0341964919671829 8.21324946942426E-09"
+        rpy="0 0 0" />
+      <mass
+        value="0.67086342261683" />
+      <inertia
+        ixx="0.000765115111686015"
+        ixy="-0.000290281022830496"
+        ixz="3.19374936416653E-10"
+        iyy="0.00102590761695207"
+        iyz="2.22207209578209E-10"
+        izz="0.00120606464694258" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_1_1_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_1_1_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin1_1_1"
+    type="revolute">
+    <origin
+      xyz="0.212076291309529 0.122256317843988 0"
+      rpy="0 0 0" />
+    <parent
+      link="finger_1_1" />
+    <child
+      link="finger_1_1_1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.5708"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_2">
+    <inertial>
+      <origin
+        xyz="0.0582108729521002 0.000247979231724593 0.0399998369870127"
+        rpy="0 0 0" />
+      <mass
+        value="2.62291216260929" />
+      <inertia
+        ixx="0.00599185912563818"
+        ixy="-3.98633658365707E-05"
+        ixz="-6.3272691918758E-08"
+        iyy="0.0153586088628602"
+        iyz="-1.79499154995633E-07"
+        izz="0.018806490853265" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin2"
+    type="revolute">
+    <origin
+      xyz="0.38255 0 0.78051"
+      rpy="3.1416 0.43641 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="finger_2" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1"
+      upper="1"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_2_1">
+    <inertial>
+      <origin
+        xyz="0.0990166591529629 -0.0461184210388278 5.81050302317365E-08"
+        rpy="0 0 0" />
+      <mass
+        value="2.39969803744161" />
+      <inertia
+        ixx="0.00692534578363285"
+        ixy="0.00409233281180404"
+        ixz="4.35343580124497E-08"
+        iyy="0.0138056413390875"
+        iyz="-1.79031875500785E-08"
+        izz="0.0126583189931783" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_2_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_2_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin2_1"
+    type="revolute">
+    <origin
+      xyz="0.179526432571969 0.000764504714627967 0.0400025631184961"
+      rpy="-1.5707963267949 0.436410170153714 0.00425842636341441" />
+    <parent
+      link="finger_2" />
+    <child
+      link="finger_2_1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1.2"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_2_1_1">
+    <inertial>
+      <origin
+        xyz="0.0555512334288544 -0.0296070826239864 3.573082993924E-07"
+        rpy="0 0 0" />
+      <mass
+        value="0.670866844724945" />
+      <inertia
+        ixx="0.000718080712671058"
+        ixy="0.000264167323688377"
+        ixz="4.0155580199817E-10"
+        iyy="0.00107294169250966"
+        iyz="-9.52457870579495E-11"
+        izz="0.0012060641373819" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_2_1_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_2_1_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin2_1_1"
+    type="revolute">
+    <origin
+      xyz="0.221690121359748 -0.103809243324189 0"
+      rpy="0 0 0" />
+    <parent
+      link="finger_2_1" />
+    <child
+      link="finger_2_1_1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1.5708"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_3">
+    <inertial>
+      <origin
+        xyz="0.0582078040881369 -0.000645975418494538 0.0400000422435833"
+        rpy="0 0 0" />
+      <mass
+        value="2.62291219958027" />
+      <inertia
+        ixx="0.00599265962210566"
+        ixy="0.000103958216930548"
+        ixz="-6.19943141006579E-09"
+        iyy="0.015357890537096"
+        iyz="-2.21642204466408E-07"
+        izz="0.0188066005427936" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin3"
+    type="revolute">
+    <origin
+      xyz="0.308639953146715 -0.175000000000232 1.2225627998667"
+      rpy="3.14159265358979 -0.58248657962397 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="finger_3" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1"
+      upper="1"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_3_1">
+    <inertial>
+      <origin
+        xyz="0.0949423907897378 0.0540098031361804 2.74759229146326E-07"
+        rpy="0 0 0" />
+      <mass
+        value="2.3996917545326" />
+      <inertia
+        ixx="0.00763346051353469"
+        ixy="-0.00459538282293504"
+        ixz="-2.06759840093756E-08"
+        iyy="0.0130973260097602"
+        iyz="-1.00559816598103E-08"
+        izz="0.0126581667785386" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_3_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_3_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin3_1"
+    type="revolute">
+    <origin
+      xyz="0.179528666620996 -0.00199234467872766 0.0396429453369453"
+      rpy="-1.5707963267949 -0.582458293086268 -0.0110971853921247" />
+    <parent
+      link="finger_3" />
+    <child
+      link="finger_3_1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="1.2"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="finger_3_1_1">
+    <inertial>
+      <origin
+        xyz="0.0536933464398941 0.0328557852204987 7.86275311526197E-09"
+        rpy="0 0 0" />
+      <mass
+        value="0.670863404845149" />
+      <inertia
+        ixx="0.000750675852080777"
+        ixy="-0.00028335298864535"
+        ixz="2.9238503049449E-10"
+        iyy="0.00104034676227501"
+        iyz="1.98043304970411E-10"
+        izz="0.00120606455043466" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_3_1_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/finger_3_1_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fin3_1_1"
+    type="revolute">
+    <origin
+      xyz="0.212632639805716 0.121302703469605 0"
+      rpy="0 0 0" />
+    <parent
+      link="finger_3_1" />
+    <child
+      link="finger_3_1_1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="1.5708"
+      effort="0"
+      velocity="0" />
+  </joint>
+</robot>
