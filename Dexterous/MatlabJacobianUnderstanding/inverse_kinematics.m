@@ -13,7 +13,7 @@ xd = 0;
 yd = 0;
 zd = -0.1;
 
-vel_dot = [0.1; 1; -1.5]; % Vector velocity
+vel_dot = [0.1; 0; -1.5]; % Vector velocity
 dt = 1;
 
 for i = 0:dt:10
