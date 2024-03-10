@@ -3,7 +3,8 @@ Panels:
     Help Height: 70
     Name: Displays
     Property Tree Widget:
-      Expanded: ~
+      Expanded:
+        - /RobotModel1
       Splitter Ratio: 0.5
     Tree Height: 296
   - Class: rviz_common/Views
@@ -32,7 +33,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Alpha: 0.800000011920929
+    - Alpha: 1
       Class: rviz_default_plugins/RobotModel
       Collision Enabled: false
       Description File: ""
@@ -70,6 +71,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        finger_1_eef:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         finger_2:
           Alpha: 1
           Show Axes: false
@@ -85,6 +91,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        finger_2_eef:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         finger_3:
           Alpha: 1
           Show Axes: false
@@ -96,6 +107,11 @@ Visualization Manager:
           Show Trail: false
           Value: true
         finger_3_1_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        finger_3_eef:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -109,50 +125,44 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: rviz_default_plugins/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        base_link:
-          Value: true
-        finger_1:
-          Value: true
-        finger_1_1:
-          Value: true
-        finger_1_1_1:
-          Value: true
-        finger_2:
-          Value: true
-        finger_2_1:
-          Value: true
-        finger_2_1_1:
-          Value: true
-        finger_3:
-          Value: true
-        finger_3_1:
-          Value: true
-        finger_3_1_1:
-          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: false
       Tree:
-        base_link:
-          finger_1:
-            finger_1_1:
-              finger_1_1_1:
-                {}
-          finger_2:
-            finger_2_1:
-              finger_2_1_1:
-                {}
-          finger_3:
-            finger_3_1:
-              finger_3_1_1:
-                {}
+        {}
       Update Interval: 0
+      Value: false
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: Marker
+      Namespaces:
+        "": true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /eef1_marker
+      Value: true
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: Marker
+      Namespaces:
+        {}
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /eef1_estimated_marker
       Value: true
   Enabled: true
   Global Options:
@@ -169,25 +179,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 4.490265369415283
+      Distance: 3.783177614212036
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0
-        Y: 0
-        Z: 0
+        X: -0.10066857188940048
+        Y: 0.1796087622642517
+        Z: 0.25320902466773987
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4849998950958252
+      Pitch: 0.5599998831748962
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.665000915527344
+      Yaw: 5.830007076263428
     Saved: ~
 Window Geometry:
   Displays:
