@@ -21,6 +21,7 @@ install(DIRECTORY
   config
   launch
   meshes
+  meshes2
   urdf
   rviz
   DESTINATION share/${PROJECT_NAME})

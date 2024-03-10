@@ -10,10 +10,10 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     dexterous_path = get_package_share_path('dexterous')
-    default_model_path = dexterous_path / 'urdf/hand.urdf'
+    default_model_path = dexterous_path / 'urdf/hand4.urdf'
     default_rviz_config_path = dexterous_path / 'rviz/urdf.rviz'
 
-    gui_arg = DeclareLaunchArgument(name='gui', default_value='true', choices=['true', 'false'],
+    gui_arg = DeclareLaunchArgument(name='gui', default_value='false', choices=['true', 'false'],
                                     description='Flag to enable joint_state_publisher_gui')
     model_arg = DeclareLaunchArgument(name='model', default_value=str(default_model_path),
                                       description='Absolute path to robot urdf file')
@@ -33,6 +33,7 @@ def generate_launch_description():
     joint_state_publisher_node = Node(
         package='joint_state_publisher',
         executable='joint_state_publisher',
+        parameters=[{'source_list': ["/j_s"]}],
         condition=UnlessCondition(LaunchConfiguration('gui'))
     )
 
