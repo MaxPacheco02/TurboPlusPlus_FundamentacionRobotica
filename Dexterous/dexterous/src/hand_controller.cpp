@@ -78,12 +78,12 @@ private:
     double L2{0.244804461442329};    // Distance finger_x_1 -> finger_x_1_1
     double L3{0.0406674787816};      // Distance finger_x_1_1 -> finger_x_eef
 
-    double q1_1{0.001}, q1_2{0.2}, q1_3{-1};
+    double q1_1{0}, q1_2{1.1}, q1_3{2.3};
     double q2_1{0}, q2_2{0}, q2_3{0};
     double q3_1{0}, q3_2{0}, q3_3{0};
 
     double kp = 0.1;
-    double dt = 0.01;
+    double dt = 0.1;
 
     Eigen::Vector3f f1_fk, f2_fk, f3_fk;
 
@@ -95,7 +95,7 @@ private:
         fin << 
             L1*cos(q1) - L3*(cos(q1)*sin(q2)*sin(q3) - cos(q1)*cos(q2)*cos(q3)) + L2*cos(q1)*cos(q2),
             L1*sin(q1) - L3*(sin(q1)*sin(q2)*sin(q3) - cos(q2)*cos(q3)*sin(q1)) + L2*cos(q2)*sin(q1),
-            - L3*(cos(q2)*sin(q3) + cos(q3)*sin(q2)) - L2*sin(q2);
+            L3*(cos(q2)*sin(q3) + cos(q3)*sin(q2)) + L2*sin(q2);
 
         Eigen::Matrix3f rot_x, rot_y, rot_z, rot_mat;
         rot_x << 
@@ -107,8 +107,8 @@ private:
             0, 1, 0,
             sin(rot[1]), 0, cos(rot[1]);
         rot_z << 
-            cos(rot[2]), sin(rot[2]), 0,
-            -sin(rot[2]), cos(rot[2]), 0,
+            cos(rot[2]), -sin(rot[2]), 0,
+            sin(rot[2]), cos(rot[2]), 0,
             0, 0, 1;
         return rot_x * (rot_y * (rot_z * fin));
     }
@@ -116,20 +116,22 @@ private:
     Eigen::Vector3f update_q_ik(Eigen::Vector3f err, double q1, double q2, double q3){
         // Jacobian Matrix (Calculated from the partial derivative of forward kinematics)
         Eigen::Matrix3f J;
-        J << L3*(sin(q1)*sin(q2)*sin(q3) - cos(q2)*cos(q3)*sin(q1)) - L1*sin(q1) - L2*cos(q2)*sin(q1),
-            - L3*(cos(q1)*cos(q2)*sin(q3) + cos(q1)*cos(q3)*sin(q2)) - L2*cos(q1)*sin(q2),
+        J << 
+            L3*(sin(q1)*sin(q2)*sin(q3) - cos(q2)*cos(q3)*sin(q1)) - L1*sin(q1) - L2*cos(q2)*sin(q1), 
+            - L3*(cos(q1)*cos(q2)*sin(q3) + cos(q1)*cos(q3)*sin(q2)) - L2*cos(q1)*sin(q2), 
             -L3*(cos(q1)*cos(q2)*sin(q3) + cos(q1)*cos(q3)*sin(q2)),
 
-            L1*cos(q1) - L3*(cos(q1)*sin(q2)*sin(q3) - cos(q1)*cos(q2)*cos(q3)) + L2*cos(q1)*cos(q2),
+            L1*cos(q1) - L3*(cos(q1)*sin(q2)*sin(q3) - cos(q1)*cos(q2)*cos(q3)) + L2*cos(q1)*cos(q2), 
             - L3*(cos(q2)*sin(q1)*sin(q3) + cos(q3)*sin(q1)*sin(q2)) - L2*sin(q1)*sin(q2), 
             -L3*(cos(q2)*sin(q1)*sin(q3) + cos(q3)*sin(q1)*sin(q2)),
 
-            0,
-            -L3*(cos(q2)*cos(q3) - sin(q2)*sin(q3)) - L2*cos(q2),
-            -L3*(cos(q2)*cos(q3) - sin(q2)*sin(q3));
+            0, 
+            L3*(cos(q2)*cos(q3) - sin(q2)*sin(q3)) + L2*cos(q2), 
+            L3*(cos(q2)*cos(q3) - sin(q2)*sin(q3));
+
         Eigen::Vector3f theta_dot, q_dot, new_q;
         // theta_dot << err(0) * kp, err(1) * kp, err(2) * kp;
-        theta_dot << 0, 0, 1;
+        theta_dot << 0, 0.0, 0.1;
         
         Eigen::Matrix3f j_inverse;
         bool invertible;
@@ -140,8 +142,13 @@ private:
         invertible
         );
 
-        q_dot = j_inverse * theta_dot;
+        if(invertible)
+            q_dot = j_inverse * theta_dot;
+        else
+            q_dot << 0, 0, 0;
+
         new_q << q1 + q_dot(0) * dt, q2 + q_dot(1) * dt, q3 + q_dot(2) * dt;
+
         return new_q;
     }
 
@@ -174,7 +181,7 @@ private:
         // q1_2 = -std::fabs(j_s.position[1]); // joint fin1_1
         // q1_3 = -std::fabs(j_s.position[2]); // joint fin1_1_1
 
-        f1_fk = get_fk_finger(q1_1, q1_2, q1_3, &f1_rotations[0]);
+        f1_fk = get_fk_finger(q1_1, q1_2, -q1_3, &f1_rotations[0]);
 
         // FK Estimated Position of Finger 1's EEF
         temp_marker.color = std_msgs::build<std_msgs::msg::ColorRGBA>().r(0).g(1).b(0).a(1); 
@@ -196,7 +203,7 @@ private:
         // err = f1_fk - goal;
         err << 0, 1, 0;
         // if(std::fabs(err(2)) > 0.01){
-            new_q1 = update_q_ik(err, q1_1, std::fabs(q1_2), std::fabs(q1_3));
+            new_q1 = update_q_ik(err, q1_1, q1_2, -q1_3);
             q1_1 = new_q1(0);
             q1_2 = new_q1(1);
             q1_3 = -new_q1(2);
@@ -210,8 +217,8 @@ private:
             );
 
             q1_1 = std::clamp(q1_1, -1.0, 1.0);
-            q1_2 = std::clamp(q1_2, 0.0, 2.0);
-            q1_3 = std::clamp(q1_3, -2.0, 0.0);
+            q1_2 = std::clamp(q1_2, -1.0, 2.0);
+            q1_3 = std::clamp(q1_3, -2.0, 1.0);
         // }
         // RCLCPP_ERROR(
         // this->get_logger(), "error: %f",
