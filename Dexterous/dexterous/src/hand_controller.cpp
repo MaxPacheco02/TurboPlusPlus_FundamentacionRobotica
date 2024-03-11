@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <iomanip>
 #include <iostream>
+#include <vector>
 
 #include "rclcpp/rclcpp.hpp"
 
@@ -36,16 +37,8 @@ public:
         tf_listener_ =
             std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
 
-        eef1_marker_pub_ = this->create_publisher<visualization_msgs::msg::Marker>("/eef1_marker", 10);
-        eef1_estimated_marker_pub_ = this->create_publisher<visualization_msgs::msg::Marker>("/eef1_estimated_marker", 10);
+        eef1_estimated_marker_pub_ = this->create_publisher<visualization_msgs::msg::Marker>("/eef1_fk_marker", 10);
         joint_states_pub_ = this->create_publisher<sensor_msgs::msg::JointState>("/j_s", 10);
-
-        // joint_states_sub_ = this->create_subscription<sensor_msgs::msg::JointState>(
-        //     "/joint_states", 10,
-        //     [this](const sensor_msgs::msg::JointState &msg)
-        //     {
-        //         this->j_s = msg;
-        //     });
 
         updateTimer =
             this->create_wall_timer(100ms, std::bind(&HandControllerNode::update, this));
@@ -57,16 +50,16 @@ public:
         temp_marker.scale = geometry_msgs::build<geometry_msgs::msg::Vector3>().x(0.04).y(0.04).z(0.04); 
         
         j_s.name = std::vector<std::string>{"fin1", "fin1_1", "fin1_1_1", "fin2", "fin2_1", "fin2_1_1", "fin3", "fin3_1", "fin3_1_1"};
+
+        base_to_f1 << 0.2921178340911865, 0.175, 1.1440668106079102;
+        base_to_f2 << 0.338191099465507, 0.0, 0.774632196937085;
+        base_to_f3 << 0.292117822710978, -0.175, 1.14406683612052;
     }
 
 private:
-    rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_states_sub_;
-
-    rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr eef1_marker_pub_, eef1_estimated_marker_pub_;
-    rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr arrivedPub;
+    rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr eef1_estimated_marker_pub_;
     rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr joint_states_pub_;
 
-    geometry_msgs::msg::Pose2D estimated_pose;
     visualization_msgs::msg::Marker temp_marker;
     sensor_msgs::msg::JointState j_s;
 
@@ -75,29 +68,27 @@ private:
     std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
 
     double L1{0.179528059776071};    // Distance finger_x -> finger_x_1
-    double L2{0.244804461442329};    // Distance finger_x_1 -> finger_x_1_1
-    double L3{0.0406674787816};      // Distance finger_x_1_1 -> finger_x_eef
+    double L2{0.235471940223929};    // Distance finger_x_1 -> finger_x_1_1
+    double L3{0.205};      // Distance finger_x_1_1 -> finger_x_eef
 
-    double q1_1{0}, q1_2{1.1}, q1_3{2.3};
-    double q2_1{0}, q2_2{0}, q2_3{0};
-    double q3_1{0}, q3_2{0}, q3_3{0};
+    double q1[3]{0, 0.1, 0.1};
+    double q2[3]{0, 0.1, 0.1};
+    double q3[3]{0, 0.1, 0.1};
 
-    double kp = 0.1;
+    double kp = 1;
     double dt = 0.1;
 
     Eigen::Vector3f f1_fk, f2_fk, f3_fk;
+    Eigen::Vector3f f_local;
 
-    double base_to_f1[3] = {0.330644040002145, 0.175, 1.18915890545841}; // base_link to finger 1 translation
-    double f1_rotations[3] = {3.14159265358979, -0.582486579623969, 0};  // finger 1 joint rotation
+    Eigen::Vector3f base_to_f1, base_to_f2, base_to_f3; // base_link to fingers translation
+    double f1_rotations[3]{-3.14159265358979, -0.434081521732677, 0};  // finger 1 joint rotation
+    double f2_rotations[3]{3.14159265358979, 0.194237175479863, 0};  // finger 2 joint rotation
+    double f3_rotations[3]{-3.14159265358979, -0.434081521732677, 0};  // finger 3 joint rotation
+    
 
-    Eigen::Vector3f get_fk_finger(double q1, double q2, double q3, double rot[3]){
-        Eigen::Vector3f fin;
-        fin << 
-            L1*cos(q1) - L3*(cos(q1)*sin(q2)*sin(q3) - cos(q1)*cos(q2)*cos(q3)) + L2*cos(q1)*cos(q2),
-            L1*sin(q1) - L3*(sin(q1)*sin(q2)*sin(q3) - cos(q2)*cos(q3)*sin(q1)) + L2*cos(q2)*sin(q1),
-            L3*(cos(q2)*sin(q3) + cos(q3)*sin(q2)) + L2*sin(q2);
-
-        Eigen::Matrix3f rot_x, rot_y, rot_z, rot_mat;
+    Eigen::Matrix3f get_rot_mat(double rot[3]){
+        Eigen::Matrix3f rot_x, rot_y, rot_z;
         rot_x << 
             1, 0, 0,
             0, cos(rot[0]), sin(rot[0]),
@@ -110,7 +101,26 @@ private:
             cos(rot[2]), -sin(rot[2]), 0,
             sin(rot[2]), cos(rot[2]), 0,
             0, 0, 1;
-        return rot_x * (rot_y * (rot_z * fin));
+        return rot_x * rot_y * rot_z;
+    }
+
+    std::vector<Eigen::Vector3f> get_fk_finger(double qs[], Eigen::Matrix3f rot_m){
+        Eigen::Vector3f fin;
+        std::vector<Eigen::Vector3f> finger_list;
+        double q1 = qs[0], q2 = qs[1], q3 = qs[2];
+
+        fin << 
+            L1*cos(q1) - L3*(cos(q1)*sin(q2)*sin(q3) - cos(q1)*cos(q2)*cos(q3)) + L2*cos(q1)*cos(q2),
+            L1*sin(q1) - L3*(sin(q1)*sin(q2)*sin(q3) - cos(q2)*cos(q3)*sin(q1)) + L2*cos(q2)*sin(q1),
+            L3*(cos(q2)*sin(q3) + cos(q3)*sin(q2)) + L2*sin(q2);
+        finger_list.push_back(fin);
+
+        RCLCPP_ERROR(
+            this->get_logger(), "Finger Local Pose: %f, %f, %f",
+            fin(0), fin(1), fin(2));
+
+        finger_list.push_back(rot_m * fin);
+        return finger_list;
     }
     
     Eigen::Vector3f update_q_ik(Eigen::Vector3f err, double q1, double q2, double q3){
@@ -129,107 +139,61 @@ private:
             L3*(cos(q2)*cos(q3) - sin(q2)*sin(q3)) + L2*cos(q2), 
             L3*(cos(q2)*cos(q3) - sin(q2)*sin(q3));
 
-        Eigen::Vector3f theta_dot, q_dot, new_q;
-        // theta_dot << err(0) * kp, err(1) * kp, err(2) * kp;
-        theta_dot << 0, 0.0, 0.1;
+        Eigen::Vector3f theta_d, q_dot, new_q;
+        theta_d << err(0) * kp, err(1) * kp, err(2) * kp;
         
         Eigen::Matrix3f j_inverse;
         bool invertible;
         float determinant;
-        J.computeInverseAndDetWithCheck(j_inverse,determinant,invertible);
-        RCLCPP_ERROR(
-        this->get_logger(), "CAN INVERT: %d",
-        invertible
-        );
-
+        J.computeInverseAndDetWithCheck(j_inverse, determinant, invertible);
         if(invertible)
-            q_dot = j_inverse * theta_dot;
+            q_dot = j_inverse * theta_d;
         else
             q_dot << 0, 0, 0;
 
         new_q << q1 + q_dot(0) * dt, q2 + q_dot(1) * dt, q3 + q_dot(2) * dt;
-
         return new_q;
     }
 
+    void update() {        
+        std::vector<Eigen::Vector3f> f1_data, f2_data, f3_data;
+        Eigen::Vector3f goal_f1, error_f1, new_q1;
 
-    void update() {
-        std::string finger1_frame = "finger_1_eef";
-        std::string toFrameRel = "base_link";
+        f1_data = get_fk_finger(q1, get_rot_mat(f1_rotations));
+        f_local = f1_data[0];
+        f1_fk = f1_data[1] + base_to_f1;
 
-        geometry_msgs::msg::TransformStamped t;
+        // // FK Estimated Position of Finger 1's EEF
+        // temp_marker.color = std_msgs::build<std_msgs::msg::ColorRGBA>().r(0).g(1).b(0).a(1); 
+        // temp_marker.pose.position.x = f1_fk(0);
+        // temp_marker.pose.position.y = f1_fk(1);
+        // temp_marker.pose.position.z = f1_fk(2);
+        // eef1_estimated_marker_pub_->publish(temp_marker);
+
+        goal_f1 << 0.8, 0.2, 1;
+
+        // Error = Inverse Rotation Matrix * (the goal from the base of the finger) - current pose
+        error_f1 = get_rot_mat(f1_rotations).inverse() * (goal_f1 - base_to_f1) - f_local;
         
-        try {
-            t = tf_buffer_->lookupTransform(
-            toFrameRel, finger1_frame,
-            tf2::TimePointZero);
-        } catch (const tf2::TransformException & ex) {
-            RCLCPP_INFO(
-            this->get_logger(), "Could not transform %s to %s: %s",
-            toFrameRel.c_str(), finger1_frame.c_str(), ex.what());
-            return;
-        }
 
-        // RCLCPP_INFO(
-        // this->get_logger(), "Finger 1 EEF's Pose: %f, %f, %f",
-        // t.transform.translation.x, 
-        // t.transform.translation.y, 
-        // t.transform.translation.z
-        // );
-
-        // q1_1 = j_s.position[0];           // joint f1_i
-        // q1_2 = -std::fabs(j_s.position[1]); // joint fin1_1
-        // q1_3 = -std::fabs(j_s.position[2]); // joint fin1_1_1
-
-        f1_fk = get_fk_finger(q1_1, q1_2, -q1_3, &f1_rotations[0]);
-
-        // FK Estimated Position of Finger 1's EEF
-        temp_marker.color = std_msgs::build<std_msgs::msg::ColorRGBA>().r(0).g(1).b(0).a(1); 
-        temp_marker.pose.position.x = f1_fk(0) + base_to_f1[0];
-        temp_marker.pose.position.y = f1_fk(1) + base_to_f1[1];
-        temp_marker.pose.position.z = f1_fk(2) + base_to_f1[2];
-        eef1_estimated_marker_pub_->publish(temp_marker);
-
-        // Real Position of Finger 1's EEF
-        temp_marker.color = std_msgs::build<std_msgs::msg::ColorRGBA>().r(1).g(0).b(0).a(1); 
-        temp_marker.pose.position.x = t.transform.translation.x;
-        temp_marker.pose.position.y = t.transform.translation.y;
-        temp_marker.pose.position.z = t.transform.translation.z;
-        eef1_marker_pub_->publish(temp_marker);
-
-
-        Eigen::Vector3f goal, err, new_q1;
-        goal << 0.5, 0.175, 1.1;
-        // err = f1_fk - goal;
-        err << 0, 1, 0;
-        // if(std::fabs(err(2)) > 0.01){
-            new_q1 = update_q_ik(err, q1_1, q1_2, -q1_3);
+        if(error_f1.norm() > 0.001){
+            new_q1 = update_q_ik(error_f1, q1_1, q1_2, q1_3);
             q1_1 = new_q1(0);
             q1_2 = new_q1(1);
-            q1_3 = -new_q1(2);
-            // q1_1 = 0.001;
-            // q1_2 = 0.01;
-            // q1_3 = 0.01;
+            q1_3 = new_q1(2);
+        }
 
-            RCLCPP_ERROR(
-            this->get_logger(), "qs: %f, %f, %f",
-            q1_1, q1_2, q1_3            
-            );
+        q1_1 = std::clamp(q1_1, -1.0, 1.0);
+        q1_2 = std::clamp(q1_2, -0.7, 2.3);
+        q1_3 = std::clamp(q1_3, -0.5, 2.3);
 
-            q1_1 = std::clamp(q1_1, -1.0, 1.0);
-            q1_2 = std::clamp(q1_2, -1.0, 2.0);
-            q1_3 = std::clamp(q1_3, -2.0, 1.0);
-        // }
-        // RCLCPP_ERROR(
-        // this->get_logger(), "error: %f",
-        // err(2)
-        // );
+        RCLCPP_ERROR(
+        this->get_logger(), "EEF1 Pose: %f, %f, %f",
+        f1_fk(0), f1_fk(1), f1_fk(2)
+        );
         j_s.header.stamp = HandControllerNode::now();
         j_s.position = std::vector<double>{q1_1, q1_2, q1_3, q2_1, q2_2, q2_3, q3_1, q3_2, q3_3};
         joint_states_pub_->publish(j_s);
-
-
-
     }
 };
 
