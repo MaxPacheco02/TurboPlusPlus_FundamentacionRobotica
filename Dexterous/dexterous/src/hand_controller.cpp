@@ -78,12 +78,12 @@ private:
     double L2{0.244804461442329};    // Distance finger_x_1 -> finger_x_1_1
     double L3{0.0406674787816};      // Distance finger_x_1_1 -> finger_x_eef
 
-    double q1_1{0.001}, q1_2{0.001}, q1_3{0.001};
+    double q1_1{0.001}, q1_2{0.2}, q1_3{-1};
     double q2_1{0}, q2_2{0}, q2_3{0};
     double q3_1{0}, q3_2{0}, q3_3{0};
 
     double kp = 0.1;
-    double dt = 0.05;
+    double dt = 0.01;
 
     Eigen::Vector3f f1_fk, f2_fk, f3_fk;
 
@@ -129,8 +129,18 @@ private:
             -L3*(cos(q2)*cos(q3) - sin(q2)*sin(q3));
         Eigen::Vector3f theta_dot, q_dot, new_q;
         // theta_dot << err(0) * kp, err(1) * kp, err(2) * kp;
-        theta_dot << 0, err(1) * 0.01, 0;
-        q_dot = J.inverse() * theta_dot;
+        theta_dot << 0, 0, 1;
+        
+        Eigen::Matrix3f j_inverse;
+        bool invertible;
+        float determinant;
+        J.computeInverseAndDetWithCheck(j_inverse,determinant,invertible);
+        RCLCPP_ERROR(
+        this->get_logger(), "CAN INVERT: %d",
+        invertible
+        );
+
+        q_dot = j_inverse * theta_dot;
         new_q << q1 + q_dot(0) * dt, q2 + q_dot(1) * dt, q3 + q_dot(2) * dt;
         return new_q;
     }
@@ -186,28 +196,27 @@ private:
         // err = f1_fk - goal;
         err << 0, 1, 0;
         // if(std::fabs(err(2)) > 0.01){
-            new_q1 = update_q_ik(err, q1_1, q1_2, q1_3);
+            new_q1 = update_q_ik(err, q1_1, std::fabs(q1_2), std::fabs(q1_3));
             q1_1 = new_q1(0);
-            q1_2 = std::fabs(new_q1(1));
-            q1_3 = -std::fabs(new_q1(2));
-            q1_2 = 0.01;
-            q1_3 = 0.01;
+            q1_2 = new_q1(1);
+            q1_3 = -new_q1(2);
+            // q1_1 = 0.001;
+            // q1_2 = 0.01;
+            // q1_3 = 0.01;
 
             RCLCPP_ERROR(
             this->get_logger(), "qs: %f, %f, %f",
-            new_q1(0),
-            new_q1(1),
-            new_q1(2)
+            q1_1, q1_2, q1_3            
             );
 
             q1_1 = std::clamp(q1_1, -1.0, 1.0);
             q1_2 = std::clamp(q1_2, 0.0, 2.0);
             q1_3 = std::clamp(q1_3, -2.0, 0.0);
         // }
-        RCLCPP_ERROR(
-        this->get_logger(), "error: %f",
-        err(2)
-        );
+        // RCLCPP_ERROR(
+        // this->get_logger(), "error: %f",
+        // err(2)
+        // );
         j_s.header.stamp = HandControllerNode::now();
         j_s.position = std::vector<double>{q1_1, q1_2, q1_3, q2_1, q2_2, q2_3, q3_1, q3_2, q3_3};
         joint_states_pub_->publish(j_s);
