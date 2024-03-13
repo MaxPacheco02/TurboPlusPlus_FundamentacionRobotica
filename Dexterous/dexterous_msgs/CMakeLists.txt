@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(dexterous)
+project(dexterous_msgs)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -7,47 +7,15 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(rclpy REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
-find_package(visualization_msgs REQUIRED)
-find_package(dexterous_msgs REQUIRED)
-find_package(tf2 REQUIRED)
-find_package(tf2_ros REQUIRED)
-find_package(Eigen3 REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+# uncomment the following section in order to fill in
+# further dependencies manually.
+# find_package(<dependency> REQUIRED)
 
-install(DIRECTORY
-  launch
-  meshes
-  scripts
-  urdf
-  rviz
-  DESTINATION share/${PROJECT_NAME})
-
-add_executable(hand_controller src/hand_controller.cpp)
-ament_target_dependencies(
-  hand_controller
-  geometry_msgs
-  visualization_msgs
-  std_msgs
-  rclcpp
-  sensor_msgs
-  tf2
-  tf2_ros
-  Eigen3
-  dexterous_msgs
-)
-
-install(PROGRAMS
-  scripts/prisma.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-
-install(TARGETS
-    hand_controller
-    DESTINATION lib/${PROJECT_NAME})
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/Prism.msg"
+  DEPENDENCIES geometry_msgs)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

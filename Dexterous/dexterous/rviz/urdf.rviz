@@ -177,6 +177,58 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /f3_marker
       Value: true
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: Marker
+      Namespaces:
+        "": true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /p1_marker
+      Value: true
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: Marker
+      Namespaces:
+        "": true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /p2_marker
+      Value: true
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: Marker
+      Namespaces:
+        "": true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /p3_marker
+      Value: true
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: Marker
+      Namespaces:
+        "": true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /p_cm_marker
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -199,18 +251,18 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.10686086118221283
-        Y: -0.49483805894851685
-        Z: 0.6740068793296814
+        X: 0.292999804019928
+        Y: 0.09443250298500061
+        Z: 0.8076417446136475
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.08500070124864578
+      Pitch: 0.1900007277727127
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.6718037128448486
+      Yaw: 6.034982681274414
     Saved: ~
 Window Geometry:
   Displays:
@@ -222,5 +274,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1200
-  X: 37
-  Y: 64
+  X: 473
+  Y: 126
