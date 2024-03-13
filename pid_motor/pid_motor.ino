@@ -14,6 +14,8 @@
 
 int in = 0; // PWM desired variable
 double omega_desired = 0; // Omega desired variable
+double omega_desired_buffer = 0; // Omega for changing direction
+int flag_direction = 0; // Tells current direction 0 +, 1 -
 
 // Encoder variables
 volatile int  n    = 0;
@@ -31,9 +33,11 @@ double omega = 0;//Radians per second
 
 // Initialize PID 
 // kp, ki, kd, minU, maxU, minD, maxD
-PID mypid(20, 50, 1, 0, 255, 0, 11, sampleTime);
+PID mypid(20, 30, 0, 0, 255, 0, 11, sampleTime);
 //Smooth
 //20, 10, 0
+//Faster
+//20, 50, 1
 
 
 void setup() {
@@ -55,8 +59,11 @@ void setup() {
 	// Setting up of directions
 	digitalWrite(mA1, HIGH);
 	digitalWrite(mA2, LOW);
-	digitalWrite(mB1, HIGH);
-	digitalWrite(mB2, LOW);
+//	digitalWrite(mA1, LOW);
+//	digitalWrite(mA2, HIGH);
+
+//	digitalWrite(mB1, HIGH);
+//	digitalWrite(mB2, LOW);
 
 	Serial.println("Begin... ");
 
@@ -68,12 +75,13 @@ void loop() {
 	speed();
 	//Asking user omega 
 	input_user_omegaDesired();
+	//Changing direction (if omega_desired < 0)
+	changeDirection();
 	//Calculating pwm with PID
 	in = mypid.pid_controller(omega_desired, abs(omega));
 	Serial.println(omega);
 	//Write to motor speed
 	analogWrite(ENA, in);
-//	analogWrite(ENB, 255); PWM for second motor
 
 	delay(100);
 }
@@ -85,7 +93,6 @@ void speed(){
       v = (Pcurr - Plast)/(millis() - lastTime);
       lastTime = millis();
       omega = v * 0.0174533 * 1000; 
-//      Serial.println(omega);
       Plast = Pcurr;
     }
 }
@@ -108,7 +115,7 @@ void encoder(void){
   if(ant == 2 && act ==3) n--;    
 }
 
-void input_user_pwm(){
+float input_user_pwm(){
 	if(Serial.available() > 0){
 		in = Serial.parseInt();
 //		Serial.println(in);
@@ -122,7 +129,43 @@ void input_user_pwm(){
 void input_user_omegaDesired(){
 	if(Serial.available() > 0){
 		omega_desired = Serial.parseFloat();
-		Serial.print("Omega_desired: ");
+//		Serial.print("Omega_desired: ");
 		Serial.println(omega_desired);
 	}
+
+}
+
+void changeDirection(){
+	// 0+, 1-
+
+	if(flag_direction == 0){
+		if(omega_desired < 0.0 and flag_direction == 0){
+			omega_desired_buffer = omega_desired;
+			omega_desired = 0.0;
+		}
+
+		if(omega_desired_buffer < 0.0 and omega <= 1.0){
+			digitalWrite(mA1, LOW);
+			digitalWrite(mA2, HIGH); 
+			flag_direction = 1;
+			omega_desired = abs(omega_desired_buffer);
+		}
+	}
+
+	if(flag_direction == 1){
+		if(omega_desired < 0.0) omega_desired = abs(omega_desired);
+
+//		if(omega_desired > 0.0 and flag_direction == 1){
+//			omega_desired_buffer = omega_desired;
+//			omega_desired = 0.0;
+//		}
+//	
+//		if(omega_desired_buffer > 0.0 and omega >= -1.0){
+//			digitalWrite(mA1, HIGH);
+//			digitalWrite(mA2, LOW); 
+//			flag_direction = 0;
+//			omega_desired = omega_desired_buffer;
+//		}
+	}
+
 }

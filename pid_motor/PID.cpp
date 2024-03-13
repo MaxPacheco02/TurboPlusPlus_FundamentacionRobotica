@@ -22,12 +22,6 @@ PID::PID(float kp_, float ki_, float kd_, float minU_, float maxU_, float minD_,
 }
 
 int PID::pid_controller(double desired, double current){
-//	Serial.print("Desired: ");
-//	Serial.println(desired);
-
-//	Serial.print("Current: ");
-//	Serial.println(current);
-
 	//Saturating desired
 	desired = (desired >= maxD) ? maxD : desired;	
 	desired = (desired <= minD) ? minD : desired;
@@ -40,15 +34,6 @@ int PID::pid_controller(double desired, double current){
 
 	//PID formula
 	u = (error * kp) + (accumulated_error * ki) + (difference_error * kd); 
-
-//	Serial.print("Difference error: ");
-//	Serial.println(difference_error);
-//	Serial.print("Accumulated error ");
-//	Serial.println(accumulated_error);
-//	Serial.print("Error: ");
-//	Serial.println(error);
-//	Serial.print("u ");
-//	Serial.println(u);
 
 	//Saturating input of system
 	u = (u >= maxU) ? maxU : u;
