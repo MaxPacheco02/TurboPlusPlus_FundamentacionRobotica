@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="PencilAssembly3">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.053345 0 2.7265E-19"
+        rpy="0 0 0" />
+      <mass
+        value="0.014148" />
+      <inertia
+        ixx="1.9223E-07"
+        ixy="1.7757E-21"
+        ixz="-2.3828E-22"
+        iyy="1.9032E-05"
+        iyz="-9.4652E-13"
+        izz="1.9032E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PencilAssembly3/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.6 0.6 0.6 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PencilAssembly3/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="point_link">
+    <inertial>
+      <origin
+        xyz="-0.098155 0 -4.3445E-19"
+        rpy="0 0 0" />
+      <mass
+        value="0.014148" />
+      <inertia
+        ixx="1.9223E-07"
+        ixy="-1.4836E-21"
+        ixz="4.6718E-22"
+        iyy="3.1864E-05"
+        iyz="-9.5141E-13"
+        izz="3.1864E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PencilAssembly3/meshes/point_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.6 0.6 0.6 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PencilAssembly3/meshes/point_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="point_joint"
+    type="fixed">
+    <origin
+      xyz="0.1515 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="point_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+</robot>
