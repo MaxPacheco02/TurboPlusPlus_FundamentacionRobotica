@@ -13,15 +13,15 @@ find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
+find_package(dexterous_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(Eigen3 REQUIRED)
 
 install(DIRECTORY
-  config
   launch
   meshes
-  meshes2
+  scripts
   urdf
   rviz
   DESTINATION share/${PROJECT_NAME})
@@ -37,6 +37,12 @@ ament_target_dependencies(
   tf2
   tf2_ros
   Eigen3
+  dexterous_msgs
+)
+
+install(PROGRAMS
+  scripts/prisma.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 install(TARGETS

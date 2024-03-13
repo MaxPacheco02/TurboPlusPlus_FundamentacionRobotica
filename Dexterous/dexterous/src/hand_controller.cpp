@@ -18,6 +18,7 @@
 #include "std_msgs/msg/float64.hpp"
 #include "visualization_msgs/msg/marker.hpp"
 #include "visualization_msgs/msg/marker_array.hpp"
+#include "dexterous_msgs/msg/prism.hpp"
 
 #include "tf2/exceptions.h"
 #include "tf2_ros/transform_listener.h"
@@ -36,6 +37,15 @@ public:
             std::make_unique<tf2_ros::Buffer>(this->get_clock());
         tf_listener_ =
             std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
+
+        finger_goals_sub_ = this->create_subscription<dexterous_msgs::msg::Prism>(
+            "/prism_coords", 10,
+            [this](const dexterous_msgs::msg::Prism &msg)
+            {
+                for(int i = 0 ; i < 3 ; i++){
+                    this->goals[i] << msg.poses[i+1].x, msg.poses[i+1].y, msg.poses[i+1].z;
+                }
+            });
 
         f1_marker_pub_ = this->create_publisher<visualization_msgs::msg::Marker>("/f1_marker", 10);
         f2_marker_pub_ = this->create_publisher<visualization_msgs::msg::Marker>("/f2_marker", 10);
@@ -58,9 +68,16 @@ public:
         base_to_f[0] << 0.2921178340911865, 0.175, 1.1440668106079102;
         base_to_f[1] << 0.338191099465507, 0.0, 0.774632196937085;
         base_to_f[2] << 0.292117822710978, -0.175, 1.14406683612052;
+
+        goals[0] << 0.8, 0.2, 1;
+        goals[1] << 0.8, 0, 1;
+        goals[2] << 0.8, -0.2, 1;
     }
 
 private:
+
+    rclcpp::Subscription<dexterous_msgs::msg::Prism>::SharedPtr finger_goals_sub_;
+
     rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr f1_marker_pub_, f2_marker_pub_, f3_marker_pub_;
     rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr joint_states_pub_;
 
@@ -80,10 +97,11 @@ private:
         {0, 0.1, 0.1},
         {0, 0.1, 0.1}};
 
-    double kp = 1;
+    double kp = 4;
     double dt = 0.1;
 
     Eigen::Vector3f f_local;
+    Eigen::Vector3f goals[3];
 
     Eigen::Vector3f base_to_f[3]; // base_link to fingers translation
     double f_rotations[3][3]{
@@ -171,19 +189,14 @@ private:
 
     void update() {        
         std::vector<Eigen::Vector3f> f_data;
-        Eigen::Vector3f goals[3];
         Eigen::Vector3f error_f, new_q, f_fk;
-
-        goals[0] << 0.8, 0.2, 1;
-        goals[1] << 0.8, 0, 1;
-        goals[2] << 0.8, -0.2, 1;
         
         for(int i = 0 ; i < 3 ; i++){
             f_data = get_fk_finger(q[i], get_rot_mat(f_rotations[i]));
             f_local = f_data[0];
             f_fk = f_data[1] + base_to_f[i];
             // // Error = Inverse Rotation Matrix * (the goal from the base of the finger) - current pose
-            error_f = get_rot_mat(f_rotations[i]).inverse() * (goals[i] - base_to_f[i]) - f_local;
+            error_f = get_rot_mat(f_rotations[i]).inverse() * (this->goals[i] - base_to_f[i]) - f_local;
             if(error_f.norm() > 0.001){
                 new_q = update_q_ik(error_f, q[i]);
                 q[i][0] = new_q(0);
