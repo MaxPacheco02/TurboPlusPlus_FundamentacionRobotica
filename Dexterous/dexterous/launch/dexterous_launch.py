@@ -10,7 +10,7 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     dexterous_path = get_package_share_path('dexterous')
-    default_model_path = dexterous_path / 'urdf/hand4.urdf'
+    default_model_path = dexterous_path / 'urdf/hand5.urdf'
     default_rviz_config_path = dexterous_path / 'rviz/urdf.rviz'
 
     gui_arg = DeclareLaunchArgument(name='gui', default_value='false', choices=['true', 'false'],
