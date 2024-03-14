@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
-     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
-     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
 <robot
-  name="dexterous">
+  name="hand">
   <link
     name="base_link">
     <inertial>
@@ -31,7 +28,7 @@
       <material
         name="">
         <color
-          rgba="0.188235294117647 0.203921568627451 1 1" />
+          rgba="0.01 0.1 0.99 1" />
       </material>
     </visual>
     <collision>
@@ -71,7 +68,7 @@
       <material
         name="">
         <color
-          rgba="0.188235294117647 0.203921568627451 1 1" />
+          rgba="0.01 0.1 0.99 1" />
       </material>
     </visual>
     <collision>
@@ -129,7 +126,7 @@
       <material
         name="">
         <color
-          rgba="0.188235294117647 0.203921568627451 1 1" />
+          rgba="0.01 0.1 0.99 1" />
       </material>
     </visual>
     <collision>
@@ -298,7 +295,7 @@
       <material
         name="">
         <color
-          rgba="0.188235294117647 0.203921568627451 1 1" />
+          rgba="0.01 0.1 0.99 1" />
       </material>
     </visual>
     <collision>
@@ -356,7 +353,7 @@
       <material
         name="">
         <color
-          rgba="0.188235294117647 0.203921568627451 1 1" />
+          rgba="0.01 0.1 0.99 1" />
       </material>
     </visual>
     <collision>
@@ -525,7 +522,7 @@
       <material
         name="">
         <color
-          rgba="0.188235294117647 0.203921568627451 1 1" />
+          rgba="0.01 0.1 0.99 1" />
       </material>
     </visual>
     <collision>
@@ -583,7 +580,7 @@
       <material
         name="">
         <color
-          rgba="0.188235294117647 0.203921568627451 1 1" />
+          rgba="0.01 0.1 0.99 1" />
       </material>
     </visual>
     <collision>
@@ -725,4 +722,160 @@
     <axis
       xyz="0 0 0" />
   </joint>
+  <link
+    name="e3">
+    <inertial>
+      <origin
+        xyz="-0.21779 0.0016783 0.79089"
+        rpy="0 0 0" />
+      <mass
+        value="1.3922" />
+      <inertia
+        ixx="0.02181"
+        ixy="-9.7186E-05"
+        ixz="-0.0073065"
+        iyy="0.017106"
+        iyz="-0.00017247"
+        izz="0.012962" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/e3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/e3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="e_3"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="e3" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+
+    <!-- Finger 1 Joints -->
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin1</joint_name>
+      <topic>j_f1</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+    </plugin>
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin1_1</joint_name>
+      <topic>j_f1_1</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+      <i_max>1</i_max>
+      <i_min>-1</i_min>
+    </plugin>
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin1_1_1</joint_name>
+      <topic>j_f1_1_1</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+      <i_max>1</i_max>
+      <i_min>-1</i_min>
+    </plugin>
+
+    <!-- Finger 2 Joints -->
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin2</joint_name>
+      <topic>j_f2</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+      <i_max>1</i_max>
+      <i_min>-1</i_min>
+    </plugin>
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin2_1</joint_name>
+      <topic>j_f2_1</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+      <i_max>1</i_max>
+      <i_min>-1</i_min>
+    </plugin>
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin2_1_1</joint_name>
+      <topic>j_f2_1_1</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+      <i_max>1</i_max>
+      <i_min>-1</i_min>
+    </plugin>
+
+    <!-- Finger 3 Joints -->
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin3</joint_name>
+      <topic>j_f3</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+      <i_max>1</i_max>
+      <i_min>-1</i_min>
+    </plugin>
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin3_1</joint_name>
+      <topic>j_f3_1</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+      <i_max>1</i_max>
+      <i_min>-1</i_min>
+    </plugin>
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin3_1_1</joint_name>
+      <topic>j_f3_1_1</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+      <i_max>1</i_max>
+      <i_min>-1</i_min>
+    </plugin>
 </robot>

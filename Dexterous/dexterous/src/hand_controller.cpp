@@ -51,6 +51,15 @@ public:
         f2_marker_pub_ = this->create_publisher<visualization_msgs::msg::Marker>("/f2_marker", 10);
         f3_marker_pub_ = this->create_publisher<visualization_msgs::msg::Marker>("/f3_marker", 10);
         joint_states_pub_ = this->create_publisher<sensor_msgs::msg::JointState>("/j_s", 10);
+        gz_f1_pub_ = this->create_publisher<std_msgs::msg::Float64>("/j_f1", 10);
+        gz_f1_1_pub_ = this->create_publisher<std_msgs::msg::Float64>("/j_f1_1", 10);
+        gz_f1_1_1_pub_ = this->create_publisher<std_msgs::msg::Float64>("/j_f1_1_1", 10);
+        gz_f2_pub_ = this->create_publisher<std_msgs::msg::Float64>("/j_f2", 10);
+        gz_f2_1_pub_ = this->create_publisher<std_msgs::msg::Float64>("/j_f2_1", 10);
+        gz_f2_1_1_pub_ = this->create_publisher<std_msgs::msg::Float64>("/j_f2_1_1", 10);
+        gz_f3_pub_ = this->create_publisher<std_msgs::msg::Float64>("/j_f3", 10);
+        gz_f3_1_pub_ = this->create_publisher<std_msgs::msg::Float64>("/j_f3_1", 10);
+        gz_f3_1_1_pub_ = this->create_publisher<std_msgs::msg::Float64>("/j_f3_1_1", 10);
 
         updateTimer =
             this->create_wall_timer(100ms, std::bind(&HandControllerNode::update, this));
@@ -69,9 +78,9 @@ public:
         base_to_f[1] << 0.338191099465507, 0.0, 0.774632196937085;
         base_to_f[2] << 0.292117822710978, -0.175, 1.14406683612052;
 
-        goals[0] << 0.8, 0.2, 1;
-        goals[1] << 0.8, 0, 1;
-        goals[2] << 0.8, -0.2, 1;
+        goals[0] << 0.8, 0.1, 1;
+        goals[1] << 0.8, 0, 0.5;
+        goals[2] << 0.8, -0.1, 1;
     }
 
 private:
@@ -80,6 +89,11 @@ private:
 
     rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr f1_marker_pub_, f2_marker_pub_, f3_marker_pub_;
     rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr joint_states_pub_;
+    rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr gz_f1_pub_, gz_f1_1_pub_, gz_f1_1_1_pub_;
+    rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr gz_f2_pub_, gz_f2_1_pub_, gz_f2_1_1_pub_;
+    rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr gz_f3_pub_, gz_f3_1_pub_, gz_f3_1_1_pub_;
+
+    std_msgs::msg::Float64 gz_finger_joints[3][3];
 
     visualization_msgs::msg::Marker temp_marker[3];
     sensor_msgs::msg::JointState j_s;
@@ -203,25 +217,46 @@ private:
                 q[i][1] = new_q(1);
                 q[i][2] = new_q(2);
                 // RCLCPP_ERROR(
-                // this->get_logger(), "New qs: %f, %f, %f",
-                // new_q(0), new_q(1), new_q(2)
-                // );
-                // RCLCPP_ERROR(
                 // this->get_logger(), "Error: %f, %f, %f",
                 // error_f(0), error_f(1), error_f(2)
                 // );
             }
+            RCLCPP_ERROR(
+            this->get_logger(), "QS(%d): %f, %f, %f",
+            i, q[i][0], q[i][1], q[i][2]
+            );
 
             // FK Estimated Position of Finger 1's EEF
             temp_marker[i].color = std_msgs::build<std_msgs::msg::ColorRGBA>().r(0).g(1).b(0).a(1); 
             temp_marker[i].pose.position.x = f_fk(0);
             temp_marker[i].pose.position.y = f_fk(1);
             temp_marker[i].pose.position.z = f_fk(2);
+
+            // gz_finger_joints[i][0].data = 1.0;
+            // gz_finger_joints[i][1].data = 1.0;
+            // gz_finger_joints[i][2].data = 1.0;
+            for(int j = 0 ; j < 3 ; j++){
+                if(q[i][j] == 0)
+                    q[i][j] = 0.0001;
+            }
+            gz_finger_joints[i][0].data = q[i][0];
+            gz_finger_joints[i][1].data = q[i][1];
+            gz_finger_joints[i][2].data = q[i][2];
         }
 
         f1_marker_pub_->publish(temp_marker[0]);
         f2_marker_pub_->publish(temp_marker[1]);
         f3_marker_pub_->publish(temp_marker[2]);
+
+        gz_f1_pub_->publish(gz_finger_joints[0][0]);
+        gz_f2_pub_->publish(gz_finger_joints[1][0]);
+        gz_f3_pub_->publish(gz_finger_joints[2][0]);
+        gz_f1_1_pub_->publish(gz_finger_joints[0][1]);
+        gz_f2_1_pub_->publish(gz_finger_joints[1][1]);
+        gz_f3_1_pub_->publish(gz_finger_joints[2][1]);
+        gz_f1_1_1_pub_->publish(gz_finger_joints[0][2]);
+        gz_f2_1_1_pub_->publish(gz_finger_joints[1][2]);
+        gz_f3_1_1_pub_->publish(gz_finger_joints[2][2]);
 
         // RCLCPP_ERROR(
         // this->get_logger(), "EEF3 Pose: %f, %f, %f",

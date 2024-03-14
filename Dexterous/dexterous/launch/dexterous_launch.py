@@ -10,24 +10,37 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     dexterous_path = get_package_share_path('dexterous')
-    default_model_path = dexterous_path / 'urdf/hand.urdf'
+    hand_model_path = dexterous_path / 'urdf/hand.urdf'
+    # pencil_model_path = dexterous_path / 'urdf/pencil.urdf'
     default_rviz_config_path = dexterous_path / 'rviz/urdf.rviz'
 
     gui_arg = DeclareLaunchArgument(name='gui', default_value='false', choices=['true', 'false'],
                                     description='Flag to enable joint_state_publisher_gui')
-    model_arg = DeclareLaunchArgument(name='model', default_value=str(default_model_path),
+    hand_model_arg = DeclareLaunchArgument(name='hand_robot', default_value=str(hand_model_path),
                                       description='Absolute path to robot urdf file')
+    # pencil_model_arg = DeclareLaunchArgument(name='pencil_model', default_value=str(pencil_model_path),
+    #                                   description='Absolute path to robot urdf file')
     rviz_arg = DeclareLaunchArgument(name='rvizconfig', default_value=str(default_rviz_config_path),
                                      description='Absolute path to rviz config file')
 
-    robot_description = ParameterValue(Command(['xacro ', LaunchConfiguration('model')]),
+    robot_description_hand = ParameterValue(Command(['xacro ', LaunchConfiguration('hand_robot')]),
                                        value_type=str)
+    # robot_description_pencil = ParameterValue(Command(['xacro ', LaunchConfiguration('pencil_model')]),
+    #                                    value_type=str)
 
-    robot_state_publisher_node = Node(
+    hand_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
-        parameters=[{'robot_description': robot_description}]
+        parameters=[{'robot_description': robot_description_hand}]
     )
+
+    # pencil_state_publisher_node = Node(
+    #     package='robot_state_publisher',
+    #     executable='robot_state_publisher',
+    #     namespace='pencil_robot',
+    #     output='screen',
+    #     parameters=[{'robot_description': robot_description_pencil}]
+    # )
 
     # Depending on gui parameter, either launch joint_state_publisher or joint_state_publisher_gui
     joint_state_publisher_node = Node(
@@ -60,11 +73,13 @@ def generate_launch_description():
 
     return LaunchDescription([
         gui_arg,
-        model_arg,
+        hand_model_arg,
+        # pencil_model_arg,
         rviz_arg,
         joint_state_publisher_node,
         joint_state_publisher_gui_node,
-        robot_state_publisher_node,
+        hand_state_publisher_node,
+        # pencil_state_publisher_node,
         rviz_node,
         foxglove_node,
     ])

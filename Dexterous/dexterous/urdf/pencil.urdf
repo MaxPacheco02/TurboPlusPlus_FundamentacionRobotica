@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot
+  name="pencil">
+  <link
+    name="/pencil_robot/base_link">
+    <inertial>
+      <origin
+        xyz="0.053345 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.014148" />
+      <inertia
+        ixx="1.9223E-07"
+        ixy="-1.187E-21"
+        ixz="1.2242E-21"
+        iyy="1.9032E-05"
+        iyz="-1.9858E-15"
+        izz="1.9032E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="1.515 0 0"
+        rpy="0 0.523599 1.5708" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/Pencil.dae" 
+          />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.6 0.6 0.6 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/base_link_pencil.STL" 
+          scale="10 10 10"/>
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="/pencil_robot/point_link">
+    <inertial>
+      <origin
+        xyz="-0.75 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="4.7313E-05" />
+      <inertia
+        ixx="6.4128E-11"
+        ixy="2.1094E-27"
+        ixz="1.6566E-28"
+        iyy="1.7014E-10"
+        iyz="8.0779E-28"
+        izz="1.7014E-10" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/point_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.6 0.6 0.6 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://dexterous/meshes/point_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="/point_joint"
+    type="fixed">
+    <origin
+      xyz="1.515 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="/pencil_robot/base_link" />
+    <child
+      link="/pencil_robot/point_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+<link name="base_footprint" />
+
+<joint name="base_footprint_joint" type="fixed">
+  <parent link="base_footprint" />
+  <child link="/pencil_robot/base_link" />
+</joint>
+</robot>

@@ -1,0 +1,718 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+MOVING JOINTS FROM TERMINAL
+gz topic -t "/j_f1" -m gz.msgs.Double -p "data: 0.1" 
+gz topic -t "/j_f1" -m gz.msgs.Double -p "data: 1.0" 
+gz topic -t "/j_f1_1_1" -m gz.msgs.Double -p "data: 1.0" 
+
+-->
+
+<sdf version="1.6">
+  <model name='hand'>
+    <link name='base_link'>
+      <inertial>
+        <pose>-0.096485506852520997 -8.2497903641548694e-05 0.45614879243267747 0 0 0</pose>
+        <mass>226.56733638999501</mass>
+        <inertia>
+          <ixx>24.089482545089311</ixx>
+          <ixy>0.019315845782163631</ixy>
+          <ixz>-2.3374813410854669</ixz>
+          <iyy>24.47242417428097</iyy>
+          <iyz>0.043346057388202873</iyz>
+          <izz>9.944496794442129</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_link_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/base_link.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__e3_collision_1'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/e3.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='base_link_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/base_link.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.0125000002 0.125 1 1</diffuse>
+          <ambient>0.0125000002 0.125 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__e3_visual_1'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/e3.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 0 1</diffuse>
+          <ambient>1 1 0 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='fin1' type='revolute'>
+      <pose relative_to='base_link'>0.29211782271097803 0.17499999999999999 1.14406683612052 -3.14159265358979 -0.43408152173267717 0</pose>
+      <parent>base_link</parent>
+      <child>finger_1</child>
+      <axis>
+        <xyz>0.429423079 0 -0.902854919</xyz>
+        <limit>
+          <lower>-1</lower>
+          <upper>1</upper>
+          <velocity>10.0</velocity>
+          <effort>40.0</effort>
+        </limit>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='finger_1'>
+      <pose relative_to='fin1'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.058211400276604999 3.7693642374048199e-08 8.7344479426931798e-08 0 0 0</pose>
+        <mass>2.6229121724070201</mass>
+        <inertia>
+          <ixx>0.0059915016755219003</ixx>
+          <ixy>2.2318071196542098e-08</ixy>
+          <ixz>1.3520039285168401e-08</ixz>
+          <iyy>0.015359044539238901</iyy>
+          <iyz>-1.6951400017024501e-07</iyz>
+          <izz>0.018806558465592399</izz>
+        </inertia>
+      </inertial>
+      <!-- <collision name='finger_1_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_1.STL</uri>
+          </mesh>
+        </geometry>
+      </collision> -->
+      <visual name='finger_1_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_1.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.0125000002 0.125 1 1</diffuse>
+          <ambient>0.0125000002 0.125 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='fin1_1' type='revolute'>
+      <pose relative_to='finger_1'>0.179528059776071 0 0 -1.5707963267949003 0 0</pose>
+      <parent>finger_1</parent>
+      <child>finger_1_1</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1.4</lower>
+          <upper>2.3</upper>
+          <velocity>10.0</velocity>
+          <effort>40.0</effort>
+        </limit>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='finger_1_1'>
+      <pose relative_to='fin1_1'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.109229658566421 -1.08218189409648e-07 2.7742796754326401e-07 0 0 0</pose>
+        <mass>2.3996920177896799</mass>
+        <inertia>
+          <ixx>0.0050192735259789803</ixx>
+          <ixy>-1.6397320555939901e-08</ixy>
+          <ixz>-2.2834803418470701e-08</ixz>
+          <iyy>0.0157115159697322</iyy>
+          <iyz>1.5705094851416899e-09</iyz>
+          <izz>0.0126581692982653</izz>
+        </inertia>
+      </inertial>
+      <!-- <collision name='finger_1_1_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_1_1.STL</uri>
+          </mesh>
+        </geometry>
+      </collision> -->
+      <visual name='finger_1_1_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_1_1.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.0125000002 0.125 1 1</diffuse>
+          <ambient>0.0125000002 0.125 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='fin1_1_1' type='revolute'>
+      <pose relative_to='finger_1_1'>0.23547194022392801 0 0 3.14159265358979 0 0</pose>
+      <parent>finger_1_1</parent>
+      <child>finger_1_1_1</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>2.6</upper>
+          <velocity>10.0</velocity>
+          <effort>40.0</effort>
+        </limit>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='finger_1_1_1'>
+      <pose relative_to='fin1_1_1'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.18046543609597901 -4.3488324885654423e-08 4.2364613261902622e-08 0 0 0</pose>
+        <mass>3.8485114986425999</mass>
+        <inertia>
+          <ixx>0.0070444292456033003</ixx>
+          <ixy>3.0605086531265923e-08</ixy>
+          <ixz>4.6920530719751049e-08</ixz>
+          <iyy>0.024438294622259191</iyy>
+          <iyz>-1.2629549545478591e-09</iyz>
+          <izz>0.023473056920593399</izz>
+        </inertia>
+      </inertial>
+      <collision name='finger_1_1_1_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_1_1_1.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='finger_1_1_1_fixed_joint_lump__finger_1_eef_collision_1'>
+        <pose>0.20499999999999999 0 0 1.5707963267949003 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_1_eef.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='finger_1_1_1_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_1_1_1.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 0.313749969 1</diffuse>
+          <ambient>1 1 0.313749969 1</ambient>
+        </material>
+      </visual>
+      <visual name='finger_1_1_1_fixed_joint_lump__finger_1_eef_visual_1'>
+        <pose>0.20499999999999999 0 0 1.5707963267949003 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_1_eef.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 0.313749969 1</diffuse>
+          <ambient>1 1 0.313749969 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='fin2' type='revolute'>
+      <pose relative_to='base_link'>0.33819109946550702 0 0.77463219693708496 0 0.19423717547986299 0</pose>
+      <parent>base_link</parent>
+      <child>finger_2</child>
+      <axis>
+        <xyz>0.19081 0 0.98163</xyz>
+        <limit>
+          <lower>-1</lower>
+          <upper>1</upper>
+          <velocity>10.0</velocity>
+          <effort>40.0</effort>
+        </limit>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='finger_2'>
+      <pose relative_to='fin2'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.058211612090393897 1.11964540194798e-07 -3.9154802655705399e-07 0 0 0</pose>
+        <mass>2.6229064249963101</mass>
+        <inertia>
+          <ixx>0.0059916880790047396</ixx>
+          <ixy>3.8292790022096102e-08</ixy>
+          <ixz>-4.2821844060264602e-08</ixz>
+          <iyy>0.0153587683117724</iyy>
+          <iyz>-1.29684289260522e-07</iyz>
+          <izz>0.018806435856240498</izz>
+        </inertia>
+      </inertial>
+      <!-- <collision name='finger_2_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_2.STL</uri>
+          </mesh>
+        </geometry>
+      </collision> -->
+      <visual name='finger_2_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_2.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.0125000002 0.125 1 1</diffuse>
+          <ambient>0.0125000002 0.125 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='fin2_1' type='revolute'>
+      <pose relative_to='finger_2'>0.179528059776071 0 0 -1.5707963267949003 0 0</pose>
+      <parent>finger_2</parent>
+      <child>finger_2_1</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-1.4</lower>
+          <upper>2.3</upper>
+          <velocity>10.0</velocity>
+          <effort>40.0</effort>
+        </limit>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='finger_2_1'>
+      <pose relative_to='fin2_1'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.10923030099818699 7.04610364499203e-08 1.17474904248738e-07 0 0 0</pose>
+        <mass>2.3997039228608199</mass>
+        <inertia>
+          <ixx>0.0050192895512854701</ixx>
+          <ixy>-3.5157104960018197e-08</ixy>
+          <ixz>2.25113499508722e-08</ixz>
+          <iyy>0.015711697649569499</iyy>
+          <iyz>8.6135951831955895e-10</iyz>
+          <izz>0.012658338570588699</izz>
+        </inertia>
+      </inertial>
+      <!-- <collision name='finger_2_1_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_2_1.STL</uri>
+          </mesh>
+        </geometry>
+      </collision> -->
+      <visual name='finger_2_1_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_2_1.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.0125000002 0.125 1 1</diffuse>
+          <ambient>0.0125000002 0.125 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='fin2_1_1' type='revolute'>
+      <pose relative_to='finger_2_1'>0.235471940223929 0 0 3.14159265358979 0 0</pose>
+      <parent>finger_2_1</parent>
+      <child>finger_2_1_1</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>2.6</upper>
+          <velocity>10.0</velocity>
+          <effort>40.0</effort>
+        </limit>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='finger_2_1_1'>
+      <pose relative_to='fin2_1_1'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.18046559586156019 3.0182090215991101e-07 -9.7449637248502867e-10 0 0 0</pose>
+        <mass>3.84849035331824</mass>
+        <inertia>
+          <ixx>0.0070443926772622003</ixx>
+          <ixy>1.2344578395411439e-08</ixy>
+          <ixz>1.2731910430533159e-08</ixz>
+          <iyy>0.02443789481746381</iyy>
+          <iyz>5.5702108021487191e-10</iyz>
+          <izz>0.02347265374004737</izz>
+        </inertia>
+      </inertial>
+      <collision name='finger_2_1_1_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_2_1_1.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='finger_2_1_1_fixed_joint_lump__finger_2_eef_collision_1'>
+        <pose>0.20499999999999999 0 0 1.5707963267949003 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_2_eef.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='finger_2_1_1_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_2_1_1.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 0.313749969 1</diffuse>
+          <ambient>1 1 0.313749969 1</ambient>
+        </material>
+      </visual>
+      <visual name='finger_2_1_1_fixed_joint_lump__finger_2_eef_visual_1'>
+        <pose>0.20499999999999999 0 0 1.5707963267949003 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_2_eef.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 0.313749969 1</diffuse>
+          <ambient>1 1 0.313749969 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='fin3' type='revolute'>
+      <pose relative_to='base_link'>0.29211782271097803 -0.17499999999999999 1.14406683612052 3.14159265358979 -0.43408152173267717 0</pose>
+      <parent>base_link</parent>
+      <child>finger_3</child>
+      <axis>
+        <xyz>0.429423079 0 -0.902854919</xyz>
+        <limit>
+          <lower>-1</lower>
+          <upper>1</upper>
+          <velocity>10.0</velocity>
+          <effort>40.0</effort>
+        </limit>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='finger_3'>
+      <pose relative_to='fin3'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.058211400276605901 3.7693641985470101e-08 8.7344478871820299e-08 0 0 0</pose>
+        <mass>2.6229121724070099</mass>
+        <inertia>
+          <ixx>0.0059915016755219298</ixx>
+          <ixy>2.2318071187091801e-08</ixy>
+          <ixz>1.3520039289722e-08</ixz>
+          <iyy>0.015359044539238999</iyy>
+          <iyz>-1.69514000165525e-07</iyz>
+          <izz>0.0188065584655925</izz>
+        </inertia>
+      </inertial>
+      <!-- <collision name='finger_3_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_3.STL</uri>
+          </mesh>
+        </geometry>
+      </collision> -->
+      <visual name='finger_3_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_3.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.0125000002 0.125 1 1</diffuse>
+          <ambient>0.0125000002 0.125 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='fin3_1' type='revolute'>
+      <pose relative_to='finger_3'>0.179528059776072 0 0 -1.5707963267949003 0 0</pose>
+      <parent>finger_3</parent>
+      <child>finger_3_1</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1.4</lower>
+          <upper>2.3</upper>
+          <velocity>10.0</velocity>
+          <effort>40.0</effort>
+        </limit>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='finger_3_1'>
+      <pose relative_to='fin3_1'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.109229658566421 -1.08218189187603e-07 2.7742796759877601e-07 0 0 0</pose>
+        <mass>2.3996920177896701</mass>
+        <inertia>
+          <ixx>0.0050192735259789499</ixx>
+          <ixy>-1.6397320560818801e-08</ixy>
+          <ixz>-2.28348034226873e-08</ixz>
+          <iyy>0.015711515969731901</iyy>
+          <iyz>1.570509486711e-09</iyz>
+          <izz>0.0126581692982651</izz>
+        </inertia>
+      </inertial>
+      <!-- <collision name='finger_3_1_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_3_1.STL</uri>
+          </mesh>
+        </geometry>
+      </collision> -->
+      <visual name='finger_3_1_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_3_1.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.0125000002 0.125 1 1</diffuse>
+          <ambient>0.0125000002 0.125 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='fin3_1_1' type='revolute'>
+      <pose relative_to='finger_3_1'>0.235471940223929 0 0 0 0 0</pose>
+      <parent>finger_3_1</parent>
+      <child>finger_3_1_1</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>2.6</upper>
+          <velocity>10.0</velocity>
+          <effort>40.0</effort>
+        </limit>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <link name='finger_3_1_1'>
+      <pose relative_to='fin3_1_1'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.18046543609597901 -4.3488324719120983e-08 4.2364613039858017e-08 0 0 0</pose>
+        <mass>3.8485114986425599</mass>
+        <inertia>
+          <ixx>0.0070444292456031997</ixx>
+          <ixy>3.0605086511316623e-08</ixy>
+          <ixz>4.6920530721731657e-08</ixz>
+          <iyy>0.02443829462225899</iyy>
+          <iyz>-1.262954955236258e-09</iyz>
+          <izz>0.023473056920593201</izz>
+        </inertia>
+      </inertial>
+      <collision name='finger_3_1_1_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_3_1_1.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='finger_3_1_1_fixed_joint_lump__finger_3_eef_collision_1'>
+        <pose>0.20499999999999999 0 0 1.5707963267949003 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_3_eef.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='finger_3_1_1_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_3_1_1.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 0.313749969 1</diffuse>
+          <ambient>1 1 0.313749969 1</ambient>
+        </material>
+      </visual>
+      <visual name='finger_3_1_1_fixed_joint_lump__finger_3_eef_visual_1'>
+        <pose>0.20499999999999999 0 0 1.5707963267949003 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>meshes/finger_3_eef.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 0.313749969 1</diffuse>
+          <ambient>1 1 0.313749969 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <frame name='e_3' attached_to='base_link'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='e3' attached_to='e_3'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='fin1_eef' attached_to='finger_1_1_1'>
+      <pose>0.20499999999999999 0 0 1.5707963267949003 0 0</pose>
+    </frame>
+    <frame name='finger_1_eef' attached_to='fin1_eef'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='fin2_eef' attached_to='finger_2_1_1'>
+      <pose>0.20499999999999999 0 0 1.5707963267949003 0 0</pose>
+    </frame>
+    <frame name='finger_2_eef' attached_to='fin2_eef'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='fin3_eef' attached_to='finger_3_1_1'>
+      <pose>0.20499999999999999 0 0 1.5707963267949003 0 0</pose>
+    </frame>
+    <frame name='finger_3_eef' attached_to='fin3_eef'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+
+    <!-- Finger 1 Joints -->
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin1</joint_name>
+      <topic>j_f1</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+    </plugin>
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin1_1</joint_name>
+      <topic>j_f1_1</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+    </plugin>
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin1_1_1</joint_name>
+      <topic>j_f1_1_1</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+    </plugin>
+
+    <!-- Finger 2 Joints -->
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin2</joint_name>
+      <topic>j_f2</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+    </plugin>
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin2_1</joint_name>
+      <topic>j_f2_1</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+    </plugin>
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin2_1_1</joint_name>
+      <topic>j_f2_1_1</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+    </plugin>
+
+    <!-- Finger 3 Joints -->
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin3</joint_name>
+      <topic>j_f3</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+    </plugin>
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin3_1</joint_name>
+      <topic>j_f3_1</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+    </plugin>
+    <plugin
+      filename='gz-sim-joint-position-controller-system'
+      name='gz::sim::systems::JointPositionController'>
+      <joint_name>fin3_1_1</joint_name>
+      <topic>j_f3_1_1</topic>
+      <p_gain>50</p_gain>
+      <i_gain>10</i_gain>
+      <d_gain>10</d_gain>
+    </plugin>
+  </model>
+</sdf>
