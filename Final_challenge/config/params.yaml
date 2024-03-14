@@ -1,0 +1,16 @@
+final_challenge:
+  ros__parameters:
+    wave_type: 1
+    wave_time: 0.0
+    sine_wave: 
+      frequency: 1.0 #(Hz)
+      offset: 0.0
+      amplitude: 1.0
+    square_wave:
+      frequency: 1.0 #(Hz)
+      offset: 0.0
+      amplitude: 1.0
+    saw_wave:
+      frequency: 1.0 #(Hz).
+      offset: 0.0
+      amplitude: 1.0
