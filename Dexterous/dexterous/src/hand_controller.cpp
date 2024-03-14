@@ -43,7 +43,7 @@ public:
             [this](const dexterous_msgs::msg::Prism &msg)
             {
                 for(int i = 0 ; i < 3 ; i++){
-                    this->goals[i] << msg.poses[i+1].x, msg.poses[i+1].y, msg.poses[i+1].z;
+                    this->goals[i] << msg.poses[i+4].x, msg.poses[i+4].y, msg.poses[i+4].z;
                 }
             });
 
@@ -62,7 +62,7 @@ public:
         gz_f3_1_1_pub_ = this->create_publisher<std_msgs::msg::Float64>("/j_f3_1_1", 10);
 
         updateTimer =
-            this->create_wall_timer(100ms, std::bind(&HandControllerNode::update, this));
+            this->create_wall_timer(200ms, std::bind(&HandControllerNode::update, this));
 
         for(int i = 0 ; i < 3 ; i++){
             temp_marker[i].header.frame_id = "base_link";
@@ -78,9 +78,16 @@ public:
         base_to_f[1] << 0.338191099465507, 0.0, 0.774632196937085;
         base_to_f[2] << 0.292117822710978, -0.175, 1.14406683612052;
 
-        goals[0] << 0.8, 0.1, 1;
-        goals[1] << 0.8, 0, 0.5;
-        goals[2] << 0.8, -0.1, 1;
+        // // Espaguetti Pasta Fettucini Formation
+        // goals[0] << 0.8, 0.08, 1;
+        // goals[1] << 0.8, 0, 0.8614;
+        // goals[2] << 0.8, -0.08, 1;
+
+        // Initial Gripping Formation
+        goals[0] << 0.7, 0.3, 1.08;
+        goals[1] << 0.7, 0.0, 0.72;
+        goals[2] << 0.7, -0.3, 1.08;
+
     }
 
 private:
