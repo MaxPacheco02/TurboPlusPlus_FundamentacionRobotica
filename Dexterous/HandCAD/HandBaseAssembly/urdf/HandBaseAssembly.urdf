@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="HandBaseAssembly">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.019949 -0.088537 8.9909E-07"
+        rpy="0 0 0" />
+      <mass
+        value="210.43" />
+      <inertia
+        ixx="14.727"
+        ixy="-1.2977"
+        ixz="-1.4326E-05"
+        iyy="32.254"
+        iyz="-8.2206E-05"
+        izz="25.33" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandBaseAssembly/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.18824 0.20392 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HandBaseAssembly/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+</robot>
