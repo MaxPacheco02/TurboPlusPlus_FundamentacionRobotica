@@ -3,6 +3,7 @@
   name="hand">
   <link
     name="base_link">
+      <static>true</static>
     <inertial>
       <origin
         xyz="-0.0957355123457233 -9.33844645680804E-05 0.454079173572236"
@@ -231,29 +232,6 @@
         iyz="6.31477478172835E-10"
         izz="0.0122191473111296" />
     </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://dexterous/meshes/finger_1_eef.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.929 0.953 0.251 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://dexterous/meshes/finger_1_eef.STL" />
-      </geometry>
-    </collision>
   </link>
   <joint
     name="fin1_eef"
@@ -458,29 +436,6 @@
         iyz="-2.78510539241131E-10"
         izz="0.0122189474087319" />
     </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://dexterous/meshes/finger_2_eef.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.929 0.953 0.251 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://dexterous/meshes/finger_2_eef.STL" />
-      </geometry>
-    </collision>
   </link>
   <joint
     name="fin2_eef"
@@ -685,29 +640,6 @@
         iyz="6.31477478427142E-10"
         izz="0.0122191473111295" />
     </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://dexterous/meshes/finger_3_eef.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.929 0.953 0.251 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://dexterous/meshes/finger_3_eef.STL" />
-      </geometry>
-    </collision>
   </link>
   <joint
     name="fin3_eef"
@@ -738,7 +670,7 @@
         iyz="-0.00017247"
         izz="0.012962" />
     </inertial>
-    <visual>
+    <!-- <visual>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
@@ -751,7 +683,7 @@
         <color
           rgba="1 1 0 1" />
       </material>
-    </visual>
+    </visual> -->
     <collision>
       <origin
         xyz="0 0 0"

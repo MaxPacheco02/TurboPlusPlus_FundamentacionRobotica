@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+
+<sdf version="1.10">
+  <model name='pencil'>
+    <link name='base_footprint'>
+      <inertial>
+        <pose>0.055716947206447633 0 0 0 0 0</pose>
+        <mass>0.014195312999999999</mass>
+        <inertia>
+          <ixx>1.92294128e-07</ixx>
+          <ixy>-1.1869978905999999e-21</ixy>
+          <ixz>1.22420016566e-21</ixz>
+          <iyy>4.2914108586065313e-05</iyy>
+          <iyz>-1.9857999999991919e-15</iyz>
+          <izz>4.2914108586065313e-05</izz>
+        </inertia>
+      </inertial>
+      <!-- <collision name='base_footprint_fixed_joint_lump__base_link_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>10 10 10</scale>
+            <uri>file://pencil/meshes/Pencil.dae</uri>
+          </mesh>
+        </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>500</mu>
+              </ode>
+              <bullet>
+                <friction>100</friction>
+                <rolling_friction>100</rolling_friction>
+              </bullet>
+            </friction>
+          </surface>
+      </collision> -->
+      <collision name='base_footprint_fixed_joint_lump__point_link_collision_1'>
+        <pose>1.5149999999999999 0 0 0 0.52359900000000004 1.5708000000000002</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>file://pencil/meshes/Pencil.dae</uri>
+          </mesh>
+        </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>500</mu>
+              </ode>
+              <bullet>
+                <friction>100</friction>
+                <rolling_friction>100</rolling_friction>
+              </bullet>
+            </friction>
+          </surface>
+      </collision>
+      <visual name='base_footprint_fixed_joint_lump__base_link_visual'>
+        <pose>1.5149999999999999 0 0 1.2819752903463868e-16 0.52359900000000004 1.5708000000000002</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>file://pencil/meshes/Pencil.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__point_link_visual_1'>
+        <pose>1.5149999999999999 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>file://pencil/meshes/point_link.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <frame name='/point_joint' attached_to='base_link'>
+      <pose>1.5149999999999999 0 0 3.14159 3.14159 3.14159</pose>
+    </frame>
+    <frame name='point_link' attached_to='/point_joint'>
+      <pose>0 0 0 3.14159 3.14159 3.14159</pose>
+    </frame>
+    <frame name='base_footprint_joint' attached_to='base_footprint'>
+      <pose>0 0 0 3.14159 3.14159 3.14159</pose>
+    </frame>
+    <frame name='base_link' attached_to='base_footprint_joint'>
+      <pose>0 0 0 3.14159 3.14159 3.14159</pose>
+    </frame>
+  </model>
+</sdf>

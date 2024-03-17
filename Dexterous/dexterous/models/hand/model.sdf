@@ -219,6 +219,17 @@ gz topic -t "/j_f1_1_1" -m gz.msgs.Double -p "data: 1.0"
             <uri>meshes/finger_1_eef.STL</uri>
           </mesh>
         </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>50</mu>
+              </ode>
+              <bullet>
+                <friction>1</friction>
+                <rolling_friction>0.1</rolling_friction>
+              </bullet>
+            </friction>
+          </surface>
       </collision>
       <visual name='finger_1_1_1_visual'>
         <pose>0 0 0 0 0 0</pose>
@@ -397,6 +408,17 @@ gz topic -t "/j_f1_1_1" -m gz.msgs.Double -p "data: 1.0"
             <uri>meshes/finger_2_eef.STL</uri>
           </mesh>
         </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>50</mu>
+              </ode>
+              <bullet>
+                <friction>1</friction>
+                <rolling_friction>0.1</rolling_friction>
+              </bullet>
+            </friction>
+          </surface>
       </collision>
       <visual name='finger_2_1_1_visual'>
         <pose>0 0 0 0 0 0</pose>
@@ -575,6 +597,17 @@ gz topic -t "/j_f1_1_1" -m gz.msgs.Double -p "data: 1.0"
             <uri>meshes/finger_3_eef.STL</uri>
           </mesh>
         </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>50</mu>
+              </ode>
+              <bullet>
+                <friction>1</friction>
+                <rolling_friction>0.1</rolling_friction>
+              </bullet>
+            </friction>
+          </surface>
       </collision>
       <visual name='finger_3_1_1_visual'>
         <pose>0 0 0 0 0 0</pose>

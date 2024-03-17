@@ -2,7 +2,7 @@
 
 <sdf version="1.9">
   <world name="dexterous_world">
-    <gravity>0.0 0.0 -2.0</gravity>
+    <gravity>0.0 0.0 0.0</gravity>
 
     <physics name="4ms" type="dart">
       <max_step_size>0.004</max_step_size>
@@ -370,7 +370,6 @@
     </model>
 
     <model name="hand">
-      <static>true</static>
       <include>
         <name>hand</name>
         <pose>0 0 0 0 0 0</pose>
@@ -378,20 +377,66 @@
       </include>
     </model>
 
-    <model name="box0">
+    <model name='hand_base'>
+      <static>true</static>
+      <link name='hand_base_link'>
+        <collision name="collision_base_0">
+          <pose>-0.06 0 0.145 0 0 3.14159</pose>
+          <geometry>
+            <mesh>
+              <uri>file:/hand_base/meshes/base_link.STL</uri>
+              <scale> 1 1 1 </scale>
+            </mesh>
+          </geometry>
+        </collision>
+        <!-- <visual name="visual_base_0">
+          <pose>-0.06 0 0.145 0 0 3.14159</pose>
+          <geometry>
+            <mesh>
+              <uri>file:/hand_base/meshes/base_link.STL</uri>
+              <scale> 1 1 1 </scale>
+            </mesh>
+          </geometry>
+          <material>
+            <diffuse>0.0125000002 0.125 1 1</diffuse>
+            <ambient>0.0125000002 0.125 1 1</ambient>
+          </material>
+        </visual> -->
+      </link>
+    </model>
+
+
+    <include>
+      <name>pencil</name>
+      <pose>0.7 -0.5 0.9 0 0 1.5708</pose>
+      <uri>pencil</uri>
+    </include>
+
+    <!-- <model name="box0">
       <link name="box0_link">
-        <pose>0.75 0 1 0 0 1.5708</pose>
+        <pose>0.7 0 0.9 0 0 1.5708</pose>
         <collision name='collision_box0'>
           <geometry>
             <box>
-              <size>1.2 0.3 0.2</size>
+              <size>1.2 0.1 0.1</size>
             </box>
           </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>500</mu>
+              </ode>
+              <bullet>
+                <friction>100</friction>
+                <rolling_friction>100</rolling_friction>
+              </bullet>
+            </friction>
+          </surface>
         </collision>
         <visual name="visual_box0">
           <geometry>
             <box>
-              <size>1.2 0.3 0.2</size>
+              <size>1.2 0.1 0.1</size>
             </box>
           </geometry>
           <material>
@@ -401,7 +446,45 @@
           </material>
         </visual>
       </link>
-    </model>
+    </model> -->
+
+    <!-- <model name="cylinder0">
+      <link name="cylinder0_link">
+        <pose>0.7 0 0.9 1.5708 0 0</pose>
+        <collision name='collision_cylinder0'>
+          <geometry>
+            <cylinder>
+              <radius>0.1</radius>
+              <length>1.2</length>
+            </cylinder>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>50</mu>
+              </ode>
+              <bullet>
+                <friction>1</friction>
+                <rolling_friction>0.1</rolling_friction>
+              </bullet>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual_cylinder0">
+          <geometry>
+            <cylinder>
+              <radius>0.1</radius>
+              <length>1.2</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.8 0.1 0.1 1</ambient>
+            <diffuse>0.8 0.1 0.1 1</diffuse>
+            <specular>0.8 0.1 0.1 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model> -->
 
   </world>
 </sdf>

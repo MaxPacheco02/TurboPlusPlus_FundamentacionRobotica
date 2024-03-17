@@ -83,10 +83,15 @@ public:
         // goals[1] << 0.8, 0, 0.8614;
         // goals[2] << 0.8, -0.08, 1;
 
-        // Initial Gripping Formation
-        goals[0] << 0.7, 0.3, 1.08;
-        goals[1] << 0.7, 0.0, 0.72;
-        goals[2] << 0.7, -0.3, 1.08;
+        // Initial Gripping Formation (Change with center of mass and dimensions)
+        Eigen::Vector3f goal;
+        goal << 0.7, 0, 0.9;
+        float length_box = 1.2, width_box = 0.1, height_box = 0.1;
+        float finger_sphere_r = 0.08 + 0.02;
+
+        goals[0] << goal(0), goal(1) + length_box / 4, goal(2) + height_box/2 + finger_sphere_r;
+        goals[1] << goal(0), goal(1), goal(2) - height_box/2 - finger_sphere_r;
+        goals[2] << goal(0), goal(1) - length_box / 4, goal(2) + height_box/2 + finger_sphere_r;
 
     }
 

@@ -2,7 +2,7 @@
 <robot
   name="pencil">
   <link
-    name="/pencil_robot/base_link">
+    name="base_link">
     <inertial>
       <origin
         xyz="0.053345 0 0"
@@ -44,7 +44,7 @@
     </collision>
   </link>
   <link
-    name="/pencil_robot/point_link">
+    name="point_link">
     <inertial>
       <origin
         xyz="-0.75 0 0"
@@ -90,9 +90,9 @@
       xyz="1.515 0 0"
       rpy="0 0 0" />
     <parent
-      link="/pencil_robot/base_link" />
+      link="base_link" />
     <child
-      link="/pencil_robot/point_link" />
+      link="point_link" />
     <axis
       xyz="0 0 0" />
   </joint>
@@ -100,6 +100,6 @@
 
 <joint name="base_footprint_joint" type="fixed">
   <parent link="base_footprint" />
-  <child link="/pencil_robot/base_link" />
+  <child link="base_link" />
 </joint>
 </robot>

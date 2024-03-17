@@ -44,6 +44,7 @@ ament_target_dependencies(
 
 install(PROGRAMS
   scripts/prisma.py
+  scripts/speech_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
