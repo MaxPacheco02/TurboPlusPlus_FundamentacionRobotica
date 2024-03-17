@@ -14,3 +14,5 @@ final_challenge:
       frequency: 1.0 #(Hz).
       offset: 0.0
       amplitude: 1.0
+    unit:
+      amplitude: 1.0

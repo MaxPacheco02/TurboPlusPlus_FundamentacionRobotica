@@ -32,7 +32,8 @@ class Final_Challenge(Node):
                 ('square_wave.amplitude', rclpy.Parameter.Type.DOUBLE),
                 ('saw_wave.frequency', rclpy.Parameter.Type.DOUBLE),
                 ('saw_wave.offset', rclpy.Parameter.Type.DOUBLE),
-                ('saw_wave.amplitude', rclpy.Parameter.Type.DOUBLE)
+                ('saw_wave.amplitude', rclpy.Parameter.Type.DOUBLE),
+                ('unit.amplitude', rclpy.Parameter.Type.DOUBLE)
         ])
 
         #Topics
@@ -69,12 +70,15 @@ class Final_Challenge(Node):
             self.offset = self.get_parameter('square_wave.offset').get_parameter_value().double_value
             self.amplitude = self.get_parameter('square_wave.amplitude').get_parameter_value().double_value
             self.signal.data = (self.amplitude * sig.square(self.frequency*self.time)) + self.offset
-        else:
+        elif(self.type == 3):
             self.frequency = self.get_parameter('saw_wave.frequency').get_parameter_value().double_value
             self.offset = self.get_parameter('saw_wave.offset').get_parameter_value().double_value
             self.amplitude = self.get_parameter('saw_wave.amplitude').get_parameter_value().double_value
             self.time += 1/self.frequency
             self.signal.data = (self.amplitude * sig.sawtooth(self.frequency * self.time/10)) + self.offset
+        else:
+            self.amplitude = self.get_parameter('unit.amplitude').get_parameter_value().double_value
+            self.signal.data = self.amplitude
 
         self.time = self.time + self.timer_period_1
         self.signal_publisher.publish(self.signal)
