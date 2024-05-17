@@ -21,18 +21,16 @@ from tf2_ros.transform_listener import TransformListener
 from ament_index_python.packages import get_package_share_directory
 
 from control_msgs.msg import JointTrajectoryControllerState
-from geometry_msgs.msg import Vector3, Pose, PoseStamped, TransformStamped
+from geometry_msgs.msg import Vector3, Pose, PoseStamped, TransformStamped, Point
 from std_msgs.msg import ColorRGBA, Int8
 from nav_msgs.msg import Path
 from visualization_msgs.msg import Marker, MarkerArray
 
-import speech_recognition as sr
-
 FIG_SCALE = 0.05
 
-X_OFFSET = 0.2
-Y_OFFSET = 0.2
-Z_OFFSET = 0.2
+X_OFFSET = 0.3
+Y_OFFSET = 0.0
+Z_OFFSET = 0.4
 
 Z_ADDER = 0 # For the sphere huh
 
@@ -45,56 +43,6 @@ class TrajectoryPlannerNode(Node):
         global Z_ADDER, FIG_SCALE
         super().__init__('trajectory_planner')
 
-        recognized = False
-        while not recognized:
-            r= sr.Recognizer()
-            with sr.Microphone() as source:
-                    print('Choose a figure:')
-                    print('1: Cone')
-                    print('2: Cube')
-                    print('3: Cylinder')
-                    print('4: Hexagonal Prism')
-                    print('5: Prism')
-                    print('6: Sphere')
-                    print('7: Squared Pyramid')
-                    print('8: Triangular Prism')
-                    print('9: Triangular Pyramid')
-                    r.pause_threshold = 1
-                    r.adjust_for_ambient_noise(source)
-                    audio = r.listen(source)
-            try:
-                        phrase = (r.recognize_google(audio, language="es-419").lower())
-                        print('You said: ' + phrase + '\n')
-                        opt = ''
-                        if(phrase == 'uno' or phrase == '1'):
-                            opt = 'cone'
-                        if(phrase == 'dos' or phrase == '2'):
-                            opt = 'cube'
-                        if(phrase == 'tres' or phrase == '3'):
-                            opt = 'cylinder'
-                        if(phrase == 'cuatro' or phrase == '4'):
-                            opt = 'hexagonal_prism'
-                        if(phrase == 'cinco' or phrase == '5'):
-                            opt = 'prism'
-                            FIG_SCALE = 0.1
-                        if(phrase == 'seis' or phrase == '6'):
-                            opt = 'sphere'
-                            Z_ADDER = 1
-                        if(phrase == 'siete' or phrase == '7'):
-                            opt = 'squared_pyramid'
-                        if(phrase == 'ocho' or phrase == '8'):
-                            opt = 'triangular_prism'
-                        if(phrase == 'nueve' or phrase == '9'):
-                            opt = 'triangular_pyramid'
-                        
-                        if opt != '':
-                            recognized = True
-                        else:
-                             print('Try again!')
-
-            except sr.UnknownValueError:
-                    print('Your last command couldn\'t be heard')
-        
         self.path_pub_ = self.create_publisher(Path, '/xarm_planned_path', 10)
         self.marker_pub_ = self.create_publisher(MarkerArray, '/mk_arr', 10)
 
@@ -107,8 +55,7 @@ class TrajectoryPlannerNode(Node):
         self.wp_file_ = os.path.join(
             get_package_share_directory('xarm'),
             'config',
-            opt + '.csv'
-            # 'prueba.csv'
+            'cone.csv'
         )
 
         self.path_ = Path()
@@ -123,26 +70,13 @@ class TrajectoryPlannerNode(Node):
                 pose_stmpd.pose.position.x = float(row[0])*FIG_SCALE + X_OFFSET
                 pose_stmpd.pose.position.y = float(row[1])*FIG_SCALE + Y_OFFSET
                 pose_stmpd.pose.position.z = (float(row[2]) + Z_ADDER)*FIG_SCALE + Z_OFFSET
-                # pose_stmpd.pose.position.x = float(row[0])
-                # pose_stmpd.pose.position.y = float(row[1])
-                # pose_stmpd.pose.position.z = float(row[2])
                 pose_stmpd.pose.orientation.w = 0.0
                 pose_stmpd.pose.orientation.x = 1.0
                 pose_stmpd.pose.orientation.y = 0.0
                 pose_stmpd.pose.orientation.z = 0.0
 
                 self.path_.poses.append(pose_stmpd)
-        pose_stmpd = PoseStamped()
-        pose_stmpd.header.frame_id = "world"
-        pose_stmpd.pose.position.x = X_OFFSET
-        pose_stmpd.pose.position.y = Y_OFFSET
-        pose_stmpd.pose.position.z = 0.15
-        pose_stmpd.pose.orientation.w = 0.0
-        pose_stmpd.pose.orientation.x = 1.0
-        pose_stmpd.pose.orientation.y = 0.0
-        pose_stmpd.pose.orientation.z = 0.0
 
-        self.path_.poses.append(pose_stmpd)
         self.path_pub_.publish(self.path_)
 
     def timer_callback(self):
@@ -158,24 +92,16 @@ class TrajectoryPlannerNode(Node):
             
             if t.transform.translation.z >= Z_OFFSET - 0.001:
                 dot = Marker()
-                dot.color = ColorRGBA()
-                dot.color.r = 1.0
-                dot.color.g = 0.0
-                dot.color.b = 0.0
-                dot.color.a = 1.0
+                dot.color = ColorRGBA(r = 1.0, g = 0.0, b = 0.0, a = 1.0)
                 
                 dot.header.frame_id = 'world'
                 dot.id = self.i
                 self.i+=1
                 dot.type = 2
                 dot.action = 0
-                dot.scale = Vector3()
-                dot.scale.x = 0.01
-                dot.scale.y = 0.01
-                dot.scale.z = 0.01
-                dot.pose.position.x = -t.transform.translation.x
-                dot.pose.position.y = t.transform.translation.y
-                dot.pose.position.z = t.transform.translation.z - 0.01
+                dot.scale = Vector3(x = 0.01, y = 0.01, z = 0.01)
+                dot.pose.position = Point(x = -t.transform.translation.x, y = t.transform.translation.y, z = t.transform.translation.z - 0.01)
+
                 self.drawing.markers.append(dot)
                 self.marker_pub_.publish(self.drawing)
 
