@@ -9,15 +9,15 @@ from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
     return LaunchDescription([
-        # Node(
-        #     package='xarm',
-        #     executable='trajectory_planner.py',
-        # ),
         Node(
-            name="foxglove_bridge",
-            package="foxglove_bridge",
-            executable="foxglove_bridge"
+            package='xarm',
+            executable='object_planner.py',
         ),
+        #Node(
+        #    name="foxglove_bridge",
+        #    package="foxglove_bridge",
+        #    executable="foxglove_bridge"
+        #),
         IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             PathJoinSubstitution([

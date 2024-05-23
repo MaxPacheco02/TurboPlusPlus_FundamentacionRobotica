@@ -19,6 +19,7 @@ set(dependencies "rclcpp" "std_msgs" "geometry_msgs" "visualization_msgs")
 # Install Python executables
 install(PROGRAMS
   scripts/trajectory_planner.py
+  scripts/object_planner.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
