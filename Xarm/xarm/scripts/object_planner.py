@@ -13,17 +13,17 @@ from visualization_msgs.msg import Marker, MarkerArray
 
 FIG_SCALE = 0.05
 
-X_OFFSET = 0.4
-Y_OFFSET = 0.4
-Z_OFFSET = 0.4
+X_OFFSET = 0.3
+Y_OFFSET = 0.3
+Z_OFFSET = 0.0
 
 Z_ADDER = 0 # For the sphere huh
 
 scale = 0.0027
-rangeX = 5.3
-rangeY = 5.3
-rangeZ = 5.3
-bottomZ = -5.0
+rangeX = 0.5
+rangeY = 0.5
+upZ = 0.5
+bottomZ = 0.0
 
 class ObjectPlannerNode(Node):
 
@@ -38,15 +38,15 @@ class ObjectPlannerNode(Node):
 
 
     def sub_callback(self, msg):
-        y = (msg.data[0] + msg.data[3])/2 * scale + Z_OFFSET # X
-        z = (msg.data[1] + msg.data[4])/2 * scale + Y_OFFSET # Y 
-        x = -(msg.data[2] + msg.data[5])/2 * scale + X_OFFSET # Z
+        y = (msg.data[0] + msg.data[3])/2 * scale + Y_OFFSET # y -> X
+        z = -1*(msg.data[1] + msg.data[4])/2 * scale + Z_OFFSET # z -> Y 
+        x = (msg.data[2] + msg.data[5])/2 * scale + X_OFFSET # x -> Z
 
         x = rangeX if x >= rangeX else x
         x = -rangeX if x <= -rangeX else x
         y = rangeY if y >= rangeY else y
         y = -rangeY if y <= -rangeY else y
-        z = rangeZ if z >= rangeZ else z
+        z = upZ if z >= upZ else z
         z = bottomZ if z <= bottomZ else z
 
 
